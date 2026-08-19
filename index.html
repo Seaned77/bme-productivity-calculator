@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b2b4c" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="BMe Calc" />
+  <link rel="manifest" href="manifest.json" />
+  <title>BMe Productivity Calculator</title>
+  <style>
+    :root{--navy:#0b2b4c;--blue:#1769aa;--sky:#eaf4fb;--gold:#e4a829;--ink:#102333;--muted:#617487;--line:#d9e3eb;--bg:#f5f8fb;--card:#fff;--good:#16754a;--shadow:0 10px 28px rgba(11,43,76,.10)}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+    header{background:linear-gradient(145deg,#071f37,#0b2b4c 58%,#1769aa);color:#fff;padding:calc(18px + env(safe-area-inset-top)) 18px 22px;border-radius:0 0 26px 26px;box-shadow:var(--shadow)}
+    .brand{max-width:760px;margin:auto}.eyebrow{font-size:12px;letter-spacing:.13em;text-transform:uppercase;opacity:.78;font-weight:800}.brand h1{font-size:25px;margin:5px 0 4px;line-height:1.12}.brand p{margin:0;opacity:.82;font-size:14px}
+    main{max-width:760px;margin:0 auto;padding:16px 14px 90px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:-3px 0 16px;position:sticky;top:8px;z-index:5}.tab{border:1px solid var(--line);background:#fff;border-radius:14px;padding:11px 6px;font-size:12px;font-weight:800;color:var(--muted);box-shadow:0 4px 14px rgba(11,43,76,.06)}.tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+    .card{background:var(--card);border:1px solid #e4ebf1;border-radius:20px;box-shadow:var(--shadow);padding:17px;margin-bottom:14px}.card h2{font-size:17px;margin:0 0 13px}.section-title{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:900;margin-bottom:10px}
+    label{display:block;font-size:12px;color:var(--muted);font-weight:750;margin-bottom:5px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field.full{grid-column:1/-1} select,input{width:100%;font:inherit;border:1px solid #cfdbe5;border-radius:12px;background:#fff;color:var(--ink);padding:12px;outline:none}select:focus,input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(23,105,170,.12)}input[type=number]{font-weight:800}
+    .hero-result{background:linear-gradient(145deg,#f1f8fd,#fff);border:1px solid #d9eaf6;border-radius:18px;padding:16px;margin-top:14px}.hero-label{color:var(--muted);font-size:12px;font-weight:800}.hero-value{font-size:38px;line-height:1;margin:4px 0 4px;font-weight:900;color:var(--navy);letter-spacing:-.03em}.hero-sub{font-size:13px;color:var(--muted)}
+    .metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}.metric{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fff}.metric .k{font-size:11px;color:var(--muted);font-weight:750}.metric .v{font-size:18px;font-weight:900;margin-top:2px}.metric.wide{grid-column:1/-1}.metric.good .v{color:var(--good)}
+    .rate-badge{display:flex;align-items:center;justify-content:space-between;background:var(--sky);border:1px solid #d3e8f7;border-radius:14px;padding:10px 12px;margin-top:12px;font-size:12px}.rate-badge b{font-size:14px;color:var(--navy)}
+    .compare-grid{display:grid;gap:10px}.machine{border:1px solid var(--line);border-radius:17px;padding:14px}.machine.inline{border-top:4px solid var(--blue)}.machine.offline{border-top:4px solid var(--gold)}.machine.third{border-top:4px solid #8797a5}.machine-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}.machine h3{margin:0;font-size:16px}.pill{font-size:11px;font-weight:850;background:#edf3f7;border-radius:999px;padding:5px 8px}.big{font-size:27px;font-weight:950;color:var(--navy)}.small{font-size:12px;color:var(--muted)}
+    details{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}summary{cursor:pointer;font-weight:850;font-size:13px;color:var(--navy)}.advanced{padding-top:12px}.note{font-size:12px;line-height:1.5;color:var(--muted);margin:9px 0 0}.footer-note{text-align:center;color:var(--muted);font-size:11px;padding:10px 14px}
+    .hidden{display:none!important}.install{width:100%;border:0;border-radius:13px;background:var(--gold);color:#102333;font-weight:900;padding:12px;margin-top:12px;font-size:14px}.install[hidden]{display:none}.reset{border:0;background:transparent;color:var(--blue);font-weight:850;padding:6px 0;font-size:12px}
+    @media(min-width:620px){.compare-grid{grid-template-columns:repeat(3,1fr)}.field-grid{grid-template-columns:repeat(3,1fr)}.metrics{grid-template-columns:repeat(4,1fr)}.metric.wide{grid-column:auto}.brand h1{font-size:30px}.tabs .tab{font-size:13px}}
+  </style>
+</head>
+<body>
+<header><div class="brand"><div class="eyebrow">CP BOURG • BMe</div><h1>Productivity Calculator</h1><p>Fast inline, offline and side-by-side booklet production estimates.</p></div></header>
+<main>
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-view="compare">Compare</button>
+    <button class="tab" data-view="inline">Inline</button>
+    <button class="tab" data-view="offline">Offline</button>
+  </div>
+
+  <section id="view-compare" class="view">
+    <div class="card">
+      <div class="section-title">Inline vs Offline</div>
+      <h2>8.5 × 11 booklet production</h2>
+      <div class="field-grid">
+        <div class="field"><label for="compareSheets">Sheets per book</label><input id="compareSheets" type="number" min="1" max="100" step="1" value="5"></div>
+        <div class="field"><label for="compareSet">Set interval (seconds)</label><input id="compareSet" type="number" min="0" max="10" step="0.1" value="0.8"></div>
+      </div>
+      <div class="compare-grid" id="compareResults" style="margin-top:14px"></div>
+      <p class="note">Comparison matches the workbook’s 12 × 18 input-sheet scenario: Inline 75 SPM, Offline 120 SPM, and V800/Plockmatic using the workbook’s 0.34 sheets/sec value.</p>
+    </div>
+  </section>
+
+  <section id="view-inline" class="view hidden">
+    <div class="card">
+      <div class="section-title">BMe Inline w/ iX3200</div><h2>Booklet production rate</h2>
+      <div class="field-grid">
+        <div class="field full"><label for="inlineFormat">Input sheet format</label><select id="inlineFormat"></select></div>
+        <div class="field"><label for="inlineSheets">Sheets per book</label><input id="inlineSheets" type="number" min="1" max="100" step="1" value="3"></div>
+        <div class="field"><label for="inlineSet">Set interval (seconds)</label><input id="inlineSet" type="number" min="0" max="10" step="0.1" value="0.8"></div>
+        <div class="field"><label for="inlineShift">Shift hours</label><input id="inlineShift" type="number" min="1" max="24" step="0.5" value="8"></div>
+      </div>
+      <div id="inlineRate" class="rate-badge"></div><div id="inlineResults"></div>
+      <details><summary>Advanced / workbook assumptions</summary><div class="advanced"><p class="note">Pages per book = sheets × 4. Month = 30 days. The app recalculates shift/day/month from the selected format’s own Books per Hour value, correcting copied-cell reference errors present in a few workbook output cells.</p><button class="reset" data-reset="inline">Reset Inline values</button></div></details>
+    </div>
+  </section>
+
+  <section id="view-offline" class="view hidden">
+    <div class="card">
+      <div class="section-title">BMe Offline</div><h2>Booklet production rate</h2>
+      <div class="field-grid">
+        <div class="field full"><label for="offlineFormat">Input sheet format</label><select id="offlineFormat"></select></div>
+        <div class="field"><label for="offlineSheets">Sheets per book</label><input id="offlineSheets" type="number" min="1" max="100" step="1" value="3"></div>
+        <div class="field"><label for="offlineSet">Set interval (seconds)</label><input id="offlineSet" type="number" min="0" max="10" step="0.1" value="0.8"></div>
+        <div class="field"><label for="offlineShift">Shift hours</label><input id="offlineShift" type="number" min="1" max="24" step="0.5" value="8"></div>
+      </div>
+      <div id="offlineRate" class="rate-badge"></div><div id="offlineResults"></div>
+      <details><summary>Advanced / workbook assumptions</summary><div class="advanced"><p class="note">The workbook’s Offline 9 × 12 (LEF) column lists 251.85 SPM but 3.33 sheets/sec. To preserve the workbook’s downstream productivity calculation, this app uses the workbook’s 3.33 sheets/sec value for that format.</p><button class="reset" data-reset="offline">Reset Offline values</button></div></details>
+    </div>
+  </section>
+
+  <div class="card"><h2 style="margin-bottom:4px">Put it on your phone</h2><p class="note">Once hosted, this works as an installable web app. On iPhone use Safari → Share → Add to Home Screen. On Android use Chrome → Install app / Add to Home screen.</p><button id="installBtn" class="install" hidden>Install BMe Calculator</button></div>
+  <div class="footer-note">Based on “BMe productivity rates OFFLINE vs INLINE iX3200 V2 SE edits.ods” • calculations run entirely on-device</div>
+</main>
+<script>
+const RATES={
+ inline:[
+  {name:'Letter (LEF)',spm:156,sps:2.6},{name:'Letter (SEF)',spm:113,sps:1.88333333333333},{name:'Ledger (SEF)',spm:79,sps:1.31666666666667},{name:'Ledger + (SEF)',spm:75,sps:1.25},{name:'9 × 12 (SEF)',spm:107.25,sps:1.7875},{name:'9 × 12 (LEF)',spm:147,sps:2.45}
+ ],
+ offline:[
+  {name:'Letter (LEF)',spm:266.67,sps:4.44444444444445},{name:'Letter (SEF)',spm:200,sps:3.33333333333333},{name:'Ledger (SEF)',spm:130,sps:2.16666666666667},{name:'Ledger + (SEF)',spm:120,sps:2},{name:'9 × 12 (SEF)',spm:183.33,sps:3.05555555555556},{name:'9 × 12 (LEF)',spm:251.85,sps:3.33}
+ ]
+};
+const fmt=(n,d=2)=>Number.isFinite(n)?n.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
+const intfmt=n=>Number.isFinite(n)?Math.round(n).toLocaleString():'—';
+function calc(rate,sheets,set=.8,shift=8){
+ const pages=sheets*4, time=(sheets/rate.sps)+set, bpm=60/time, effSpm=sheets*bpm, bph=bpm*60, productivity=effSpm/rate.spm;
+ return {pages,time,bpm,effSpm,bph,productivity,shift:bph*shift,day:bph*24,month:bph*24*30};
+}
+function renderMetrics(el,c){
+ el.innerHTML=`<div class="hero-result"><div class="hero-label">BOOKS PER HOUR</div><div class="hero-value">${intfmt(c.bph)}</div><div class="hero-sub">${intfmt(c.pages)} pages/book • ${fmt(c.time)} sec/book</div>
+ <div class="metrics"><div class="metric"><div class="k">Books / minute</div><div class="v">${fmt(c.bpm)}</div></div><div class="metric"><div class="k">Effective sheets / min</div><div class="v">${fmt(c.effSpm)}</div></div><div class="metric good"><div class="k">System productivity</div><div class="v">${fmt(c.productivity*100,1)}%</div></div><div class="metric"><div class="k">Books / shift</div><div class="v">${intfmt(c.shift)}</div></div><div class="metric"><div class="k">Books / 24 hr</div><div class="v">${intfmt(c.day)}</div></div><div class="metric wide"><div class="k">Books / 30-day month</div><div class="v">${intfmt(c.month)}</div></div></div></div>`;
+}
+function populate(kind){const s=document.getElementById(kind+'Format');s.innerHTML=RATES[kind].map((r,i)=>`<option value="${i}">${r.name}</option>`).join('')}
+function update(kind){
+ const idx=+document.getElementById(kind+'Format').value, rate=RATES[kind][idx], sheets=Math.max(1,+document.getElementById(kind+'Sheets').value||1), set=Math.max(0,+document.getElementById(kind+'Set').value||0), shift=Math.max(1,+document.getElementById(kind+'Shift').value||8); const c=calc(rate,sheets,set,shift);
+ document.getElementById(kind+'Rate').innerHTML=`<span>Rated input speed</span><b>${fmt(rate.spm)} sheets/min • ${fmt(rate.sps)} sheets/sec</b>`; renderMetrics(document.getElementById(kind+'Results'),c); save();
+}
+function updateCompare(){
+ const sheets=Math.max(1,+document.getElementById('compareSheets').value||1),set=Math.max(0,+document.getElementById('compareSet').value||0);
+ const machines=[{name:'Inline',class:'inline',rate:{spm:75,sps:1.25}},{name:'Offline',class:'offline',rate:{spm:120,sps:2}},{name:'V800 & Plockmatic',class:'third',rate:{spm:20,sps:.34}}];
+ const vals=machines.map(m=>({...m,c:calc(m.rate,sheets,set,8)})); const best=Math.max(...vals.map(x=>x.c.bph));
+ document.getElementById('compareResults').innerHTML=vals.map(x=>`<div class="machine ${x.class}"><div class="machine-head"><h3>${x.name}</h3>${x.c.bph===best?'<span class="pill">Highest output</span>':''}</div><div class="big">${intfmt(x.c.bph)}</div><div class="small">books/hour</div><div style="height:8px"></div><div class="small"><b>${fmt(x.c.bpm)}</b> books/min<br><b>${fmt(x.c.time)}</b> sec/book<br><b>${fmt(x.c.effSpm)}</b> effective sheets/min</div></div>`).join(''); save();
+}
+function save(){try{localStorage.setItem('bmeCalc',JSON.stringify({view:document.querySelector('.tab.active')?.dataset.view,compareSheets:compareSheets.value,compareSet:compareSet.value,inlineFormat:inlineFormat.value,inlineSheets:inlineSheets.value,inlineSet:inlineSet.value,inlineShift:inlineShift.value,offlineFormat:offlineFormat.value,offlineSheets:offlineSheets.value,offlineSet:offlineSet.value,offlineShift:offlineShift.value}))}catch(e){}}
+function restore(){try{const x=JSON.parse(localStorage.getItem('bmeCalc')||'{}');Object.entries(x).forEach(([k,v])=>{const e=document.getElementById(k);if(e)e.value=v});if(x.view)show(x.view)}catch(e){}}
+function show(v){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));document.getElementById('view-'+v).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===v));save()}
+populate('inline');populate('offline');restore();
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));
+['inline','offline'].forEach(k=>['Format','Sheets','Set','Shift'].forEach(s=>document.getElementById(k+s).addEventListener('input',()=>update(k))));
+['compareSheets','compareSet'].forEach(id=>document.getElementById(id).addEventListener('input',updateCompare));
+document.querySelectorAll('[data-reset]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.reset;document.getElementById(k+'Format').value=0;document.getElementById(k+'Sheets').value=3;document.getElementById(k+'Set').value=.8;document.getElementById(k+'Shift').value=8;update(k)}));
+update('inline');update('offline');updateCompare();
+let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.hidden=false});installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.hidden=true});
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+</script>
+</body>
+</html>
