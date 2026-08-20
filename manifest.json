@@ -1,12 +1,10 @@
 {
-  "name":"BMe Productivity Calculator",
-  "short_name":"BMe Calc",
-  "description":"CP Bourg BMe inline and offline booklet productivity calculator",
+  "name":"CP Bourg Booklet Productivity Planner",
+  "short_name":"Bourg Calc",
+  "description":"CP Bourg BBM and legacy BMe booklet productivity, fit, thickness and job planning calculator",
   "start_url":"./",
   "display":"standalone",
   "background_color":"#f5f8fb",
   "theme_color":"#0b2b4c",
-  "icons":[
-    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
-  ]
+  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
