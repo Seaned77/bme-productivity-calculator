@@ -1,16 +1,5 @@
-# BMe Productivity Calculator
+# BMe / BBM Productivity Calculator
 
-Mobile-first installable web app (PWA) recreated from the workbook **BMe productivity rates OFFLINE vs INLINE iX3200 V2 SE edits.ods**.
+Mobile-first installable web app for CP Bourg booklet productivity planning.
 
-## Included calculators
-
-- Inline vs Offline comparison
-- BMe Inline with iX3200
-- BMe Offline
-- BBM/BMe machine-fit and stock-thickness planning
-- U.S./Metric paper-weight and dimension conversion
-- Real CP Bourg Inline and Offline equipment visuals
-
-## Deployment
-
-This repository is connected to Vercel. Changes pushed to `main` deploy automatically to production.
+Current production version includes U.S./Metric switching, paper-weight conversion, BBM/BMe stock and thickness planning, Inline vs Offline comparison, and verified CP Bourg equipment visuals.
