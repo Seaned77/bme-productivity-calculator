@@ -1,8 +1,8 @@
-const CACHE='bourg-calc-v4.2';
-const ASSETS=['./','./index.html','./manifest.json','./icon.svg','./equipment-visuals.js','./inline-config.svg','./offline-config.svg'];
+const CACHE='bourg-calc-v4.3';
+const ASSETS=['./','./index.html','./manifest.json','./icon.svg','./equipment-visuals.js','./inline-config.jpg','./offline-config.jpg'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener('activate',e=>e.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()])));
-function withVisualLayer(html){if(html.includes('equipment-visuals.js'))return html;return html.replace('</body>','<script src="./equipment-visuals.js?v=4.2"></script></body>')}
+function withVisualLayer(html){if(html.includes('equipment-visuals.js'))return html;return html.replace('</body>','<script src="./equipment-visuals.js?v=4.3"></script></body>')}
 self.addEventListener('fetch',e=>{
  if(e.request.mode==='navigate'){
   e.respondWith(fetch(e.request).then(async r=>{
