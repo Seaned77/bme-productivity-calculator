@@ -1,1 +1,18 @@
-const CACHE='bourg-calc-v4.1-equipment';const ASSETS=['./manifest.json','./icon.svg','./equipment-visuals.js','./inline-config.svg','./offline-config.svg'];async function injectVisuals(response){if(!response)return response;const type=response.headers.get('content-type')||'';if(!type.includes('text/html'))return response;const html=await response.text();if(html.includes('equipment-visuals.js'))return new Response(html,{status:response.status,statusText:response.statusText,headers:response.headers});const enhanced=html.replace('</body>','<script defer src="./equipment-visuals.js"></script></body>');return new Response(enhanced,{status:response.status,statusText:response.statusText,headers:response.headers})}self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});self.addEventListener('activate',e=>e.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()])));self.addEventListener('fetch',e=>{if(e.request.mode==='navigate'){e.respondWith(fetch(e.request).then(injectVisuals).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put('./',copy));return r}).catch(async()=>{const cached=await caches.match('./');return cached?injectVisuals(cached):Response.error()}));return}e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return resp})))});
+const CACHE='bourg-calc-v4.2';
+const ASSETS=['./','./index.html','./manifest.json','./icon.svg','./equipment-visuals.js','./inline-config.svg','./offline-config.svg'];
+self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
+self.addEventListener('activate',e=>e.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()])));
+function withVisualLayer(html){if(html.includes('equipment-visuals.js'))return html;return html.replace('</body>','<script src="./equipment-visuals.js?v=4.2"></script></body>')}
+self.addEventListener('fetch',e=>{
+ if(e.request.mode==='navigate'){
+  e.respondWith(fetch(e.request).then(async r=>{
+   const html=withVisualLayer(await r.text());
+   const resp=new Response(html,{status:r.status,statusText:r.statusText,headers:{'Content-Type':'text/html; charset=utf-8'}});
+   const copy=resp.clone();caches.open(CACHE).then(c=>c.put('./',copy));return resp;
+  }).catch(async()=>{
+   const cached=await caches.match('./');if(!cached)return new Response('Offline',{status:503});
+   const html=withVisualLayer(await cached.text());return new Response(html,{headers:{'Content-Type':'text/html; charset=utf-8'}})
+  }));return
+ }
+ e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return resp})))
+});
