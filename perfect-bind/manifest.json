@@ -1,0 +1,10 @@
+{
+  "name": "Canon + C.P. Bourg Perfect Bind Productivity Calculator",
+  "short_name": "Perfect Bind",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#0b2f5b",
+  "description": "BB3002 Perfect Bind productivity calculator for Canon workflows."
+}
