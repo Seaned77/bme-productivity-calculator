@@ -1,18 +1,33 @@
-const CACHE='bourg-calc-v4.13';
+const CACHE='bourg-calc-v4.14';
 const ASSETS=['./','./index.html','./manifest.json','./icon.svg','./equipment-visuals.js','./assets/inline-bbm-bme.webp','./offline-config.jpg','./assets/cp-bourg-logo-exact.png'];
-self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
-self.addEventListener('activate',e=>e.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()])));
-function withVisualLayer(html){if(html.includes('equipment-visuals.js'))return html;return html.replace('</body>','<script src="./equipment-visuals.js?v=4.13"></script></body>')}
-self.addEventListener('fetch',e=>{
- if(e.request.mode==='navigate'){
-  e.respondWith(fetch(e.request).then(async r=>{
-   const html=withVisualLayer(await r.text());
-   const resp=new Response(html,{status:r.status,statusText:r.statusText,headers:{'Content-Type':'text/html; charset=utf-8'}});
-   const copy=resp.clone();caches.open(CACHE).then(c=>c.put('./',copy));return resp;
-  }).catch(async()=>{
-   const cached=await caches.match('./');if(!cached)return new Response('Offline',{status:503});
-   const html=withVisualLayer(await cached.text());return new Response(html,{headers:{'Content-Type':'text/html; charset=utf-8'}})
-  }));return
- }
- e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return resp})))
+self.addEventListener('install',event=>{
+  self.skipWaiting();
+  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
+});
+self.addEventListener('activate',event=>{
+  event.waitUntil(Promise.all([
+    caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))),
+    self.clients.claim()
+  ]));
+});
+self.addEventListener('fetch',event=>{
+  const req=event.request;
+  if(req.method!=='GET') return;
+  if(req.mode==='navigate'){
+    event.respondWith(
+      fetch(req).catch(()=>caches.match('./').then(r=>r||caches.match('./index.html')))
+    );
+    return;
+  }
+  const url=new URL(req.url);
+  if(url.origin!==self.location.origin) return;
+  event.respondWith(
+    caches.match(req).then(cached=>cached||fetch(req).then(resp=>{
+      if(resp&&resp.ok){
+        const copy=resp.clone();
+        caches.open(CACHE).then(cache=>cache.put(req,copy));
+      }
+      return resp;
+    }))
+  );
 });
