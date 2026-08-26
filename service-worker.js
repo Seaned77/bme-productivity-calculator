@@ -1,33 +1,19 @@
-const CACHE='bourg-calc-v4.14';
-const ASSETS=['./','./index.html','./manifest.json','./icon.svg','./equipment-visuals.js','./assets/inline-bbm-bme.webp','./offline-config.jpg','./assets/cp-bourg-logo-exact.png'];
 self.addEventListener('install',event=>{
   self.skipWaiting();
-  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
 });
+
 self.addEventListener('activate',event=>{
-  event.waitUntil(Promise.all([
-    caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))),
-    self.clients.claim()
-  ]));
+  event.waitUntil((async()=>{
+    const keys=await caches.keys();
+    await Promise.all(keys.map(key=>caches.delete(key)));
+    try{await self.registration.unregister();}catch(e){}
+    const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+    for(const client of clients){
+      try{client.postMessage({type:'BOURG_SW_REMOVED'});}catch(e){}
+    }
+  })());
 });
-self.addEventListener('fetch',event=>{
-  const req=event.request;
-  if(req.method!=='GET') return;
-  if(req.mode==='navigate'){
-    event.respondWith(
-      fetch(req).catch(()=>caches.match('./').then(r=>r||caches.match('./index.html')))
-    );
-    return;
-  }
-  const url=new URL(req.url);
-  if(url.origin!==self.location.origin) return;
-  event.respondWith(
-    caches.match(req).then(cached=>cached||fetch(req).then(resp=>{
-      if(resp&&resp.ok){
-        const copy=resp.clone();
-        caches.open(CACHE).then(cache=>cache.put(req,copy));
-      }
-      return resp;
-    }))
-  );
+
+self.addEventListener('fetch',()=>{
+  // Intentionally do not intercept requests. The app is served directly by Vercel.
 });
