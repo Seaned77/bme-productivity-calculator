@@ -1,0 +1,19 @@
+{
+  "name": "C.P. Bourg Expo Ops — PRINTING United 2026",
+  "short_name": "C.P. Bourg Expo Ops",
+  "description": "Private C.P. Bourg team operations app for PRINTING United Expo 2026 in Las Vegas.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#070a0e",
+  "theme_color": "#0b0f14",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
