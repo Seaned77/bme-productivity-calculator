@@ -39,6 +39,15 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.app-shell{min-
 .eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 5px rgba(255,90,31,.1)}
 .event-chip{margin-left:auto;border:1px solid rgba(255,148,104,.24);border-radius:999px;padding:4px 7px;background:rgba(255,90,31,.07);font-size:9px;letter-spacing:.12em;color:#ffc1a6}
 .hero-accent{width:64px;height:4px;border-radius:999px;background:linear-gradient(90deg,var(--orange),#ffae7e);margin-top:12px;box-shadow:0 0 20px rgba(255,90,31,.28)}
+.hero-title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-top:4px}
+.hero-title-row .hero-title{margin-top:0;min-width:0}
+.vegas-sign{position:relative;flex:0 0 128px;min-height:78px;padding:12px 10px 9px;background:#f6f2e9;color:#111;border:3px solid #e7472d;clip-path:polygon(16% 0,84% 0,100% 50%,84% 100%,16% 100%,0 50%);text-align:center;transform:rotate(-2deg);filter:drop-shadow(0 8px 18px rgba(0,0,0,.34));box-shadow:0 0 18px rgba(255,90,31,.14)}
+.vegas-sign::before{content:"";position:absolute;inset:4px;border:2px dotted #2b83c4;clip-path:inherit;pointer-events:none;opacity:.9}
+.vegas-star{position:absolute;left:-7px;top:-13px;color:#ff6a2a;font-size:26px;line-height:1;text-shadow:0 0 10px rgba(255,90,31,.8)}
+.vegas-welcome{position:relative;font-size:8px;font-weight:950;letter-spacing:.22em;color:#d83a28;margin-top:1px}
+.vegas-main{position:relative;font-size:18px;line-height:1;font-weight:1000;letter-spacing:-.04em;color:#186aa5;margin-top:4px;text-shadow:0 0 8px rgba(24,106,165,.18)}
+.vegas-tail{position:relative;font-size:7px;letter-spacing:.09em;font-weight:900;color:#c64c27;margin-top:6px}
+@media(max-width:420px){.hero-title-row{gap:9px;align-items:center}.vegas-sign{flex-basis:110px;min-height:70px;padding:11px 7px 8px}.vegas-main{font-size:15px}.vegas-tail{font-size:6px}.vegas-welcome{font-size:7px}.vegas-star{font-size:22px;left:-5px;top:-11px}}
 .next-card{position:relative;overflow:hidden}
 .next-card::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:4px;border-radius:0 5px 5px 0;background:linear-gradient(180deg,var(--orange),#ff9568)}
 .next-card>.row,.next-card>.actions{padding-left:5px}
@@ -81,7 +90,10 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.app-shell{min-
         <div class="header-actions"><button id="syncBtn" class="ghost-btn compact sync-off" type="button">Local</button><button id="installBtn" class="ghost-btn compact" hidden>Install</button></div>
       </div>
       <div class="eyebrow"><span class="eyebrow-dot"></span> PRIVATE TEAM OPERATIONS <span class="event-chip">LAS VEGAS • 2026</span></div>
-      <div class="hero-title">PRINTING United<br><span>Expo 2026</span></div><div class="hero-accent" aria-hidden="true"></div>
+      <div class="hero-title-row">
+        <div><div class="hero-title">PRINTING United<br><span>Expo 2026</span></div><div class="hero-accent" aria-hidden="true"></div></div>
+        <div class="vegas-sign" aria-label="Welcome to Las Vegas, PRINTING United Expo 2026"><span class="vegas-star" aria-hidden="true">✦</span><div class="vegas-welcome">WELCOME</div><div class="vegas-main">LAS VEGAS</div><div class="vegas-tail">PRINTING UNITED • 2026</div></div>
+      </div>
       <div class="hero-sub">Las Vegas Convention Center • Sept 23–25</div>
       <div class="hero-badges">
         <span>3 live booths</span><span>9 team members</span><span id="issueBadge">0 open issues</span>
