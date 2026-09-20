@@ -31,7 +31,7 @@
   const esc = (s='') => String(s).replace(/[&<>\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const people = () => ops.getState().people || [];
   const personById = id => people().find(p => p.id === id);
-  const meId = () => localStorage.getItem(PERSON_STORAGE) || ops.getState().currentUserId || '';
+  const meId = () => localStorage.getItem(PERSON_STORAGE) || '';
   const me = () => personById(meId());
   const readKey = () => READ_PREFIX + (meId() || 'unknown');
   const toast = msg => ops.showToast?.(msg);
