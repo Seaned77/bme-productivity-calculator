@@ -82,7 +82,7 @@
       .chat-urgent-toggle{border:1px solid #4d3940;background:#1b1114;color:#ffadb3;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900}.chat-urgent-toggle.on{background:#4b171c;border-color:#8a3740;color:#fff}
       .chat-quick{border:1px solid #2d3a49;background:#151e28;color:#c7d0db;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:800}
       .chat-member-grid{display:flex;flex-wrap:wrap;gap:7px}.chat-member-pill{position:relative}.chat-member-pill input{position:absolute;opacity:0;pointer-events:none}.chat-member-pill span{display:block;border:1px solid #304052;background:#121b25;color:#bdc8d5;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:850}.chat-member-pill input:checked+span{background:#2c1b13;border-color:#8a462b;color:#ffb08c}.chat-direct-select{width:100%;min-height:44px;border:1px solid #354457;background:#0d141c;border-radius:13px;color:white;padding:8px 10px;font-size:14px}
-      .chat-status{font-size:11px;color:#8f9cab}.chat-alert-btn{border:1px solid #344456;background:#141e28;color:#d7dee7;border-radius:12px;padding:7px 9px;font-size:11px;font-weight:800}
+      .chat-recipients{border:1px solid #293746;background:#101820;border-radius:14px;padding:9px 11px;font-size:11px;color:#9eabba;line-height:1.45}.chat-recipients strong{color:#edf2f7}.chat-status{font-size:11px;color:#8f9cab}.chat-alert-btn{border:1px solid #344456;background:#141e28;color:#d7dee7;border-radius:12px;padding:7px 9px;font-size:11px;font-weight:800}
       @media(max-width:420px){.bottom-nav{gap:1px;padding-left:4px;padding-right:4px}.nav-btn{font-size:9px}.nav-icon svg{width:19px;height:19px}.chat-msg{max-width:92%}}
     `;
     document.head.appendChild(style);
@@ -297,6 +297,28 @@
         ${others.map(p => `<option value="${esc(p.id)}" ${p.id===dmTarget?'selected':''}>${esc(p.name)} — ${esc(p.title||'')}</option>`).join('')}
       </select></div>` : '';
 
+    function recipientNames() {
+      const all = people();
+      const othersOnly = ids => ids.filter(id => id !== self.id).map(id => personById(id)?.name).filter(Boolean);
+      if (activeChannel === 'team') return othersOnly(all.map(p=>p.id));
+      if (activeChannel === 'sales') return othersOnly(all.filter(p=>p.group==='Sales').map(p=>p.id));
+      if (activeChannel === 'nts') return othersOnly(all.filter(p=>p.group==='Technical').map(p=>p.id));
+      if (activeChannel === 'direct') return dmTarget ? [personById(dmTarget)?.name].filter(Boolean) : [];
+      if (activeChannel === 'custom') return othersOnly(customParticipants());
+      return [];
+    }
+
+    const recipients = recipientNames();
+    const recipientLabel = activeChannel === 'team'
+      ? 'Everyone'
+      : activeChannel === 'sales'
+        ? 'Sales'
+        : activeChannel === 'nts'
+          ? 'NTS'
+          : activeChannel === 'direct'
+            ? 'Direct'
+            : 'Custom';
+
     const recentGroups = recentCustomGroups();
     const customPicker = activeChannel === 'custom' ? `
       <div class="card flat">
@@ -314,6 +336,7 @@
     root.innerHTML = `<section class="section chat-shell">
       <div class="chat-head"><div><h1 style="margin:0">Team Chat</h1><p class="muted small" style="margin:4px 0 0">Show-floor messages for C.P. Bourg Expo Ops.</p></div>${alertButton}</div>
       <div class="chat-tabs">${channelTabs.map(c=>`<button class="chat-tab ${activeChannel===c.id?'active':''}" data-chat-channel="${c.id}">${c.label}</button>`).join('')}</div>
+      <div class="chat-recipients"><strong>Who receives this — ${esc(recipientLabel)}:</strong> ${recipients.length ? recipients.map(esc).join(', ') : 'Choose recipients'}</div>
       ${directPicker}
       ${customPicker}
       <div id="chatMessages" class="chat-messages">${messageHtml}</div>
