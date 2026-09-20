@@ -100,8 +100,10 @@
 
   function applyDevicePerson(id) {
     if (!id) return;
+    const changed = localStorage.getItem(PERSON_STORAGE) !== id;
     localStorage.setItem(PERSON_STORAGE, id);
     ops.setCurrentUserId(id);
+    if (changed) window.dispatchEvent(new Event('bourgops:person'));
   }
 
   function promptForPerson(force=false) {
@@ -112,9 +114,9 @@
     }
     const people = ops.getState().people || [];
     const dlg = ensureDialog();
-    dlg.querySelector('#syncDialogTitle').textContent = 'Who is using this phone?';
+    dlg.querySelector('#syncDialogTitle').textContent = 'Who is using this device?';
     dlg.querySelector('#syncDialogBody').innerHTML = `
-      <p class="modal-sub">Choose your name once. This stays on this device so your assignments and reminders are personal.</p>
+      <p class="modal-sub">Choose your name once on each phone, tablet, or laptop. You can use the same name on all your devices at the same time.</p>
       <div class="field">
         <label for="devicePerson">Team member</label>
         <select id="devicePerson" class="select">
@@ -124,10 +126,14 @@
       <div class="actions"><button type="button" class="primary-btn" id="saveDevicePerson">Use this person</button></div>`;
     const select = dlg.querySelector('#devicePerson');
     if (existing) select.value = existing;
-    dlg.querySelector('#saveDevicePerson').onclick = () => {
+    dlg.querySelector('#saveDevicePerson').onclick = async () => {
+      if (existing && existing !== select.value && window.BourgPush) {
+        try { await window.BourgPush.disable(); }
+        catch { toast('Connect to the internet to safely switch this device to another person.'); return; }
+      }
       applyDevicePerson(select.value);
       dlg.close();
-      toast('This phone is set for ' + (people.find(p => p.id === select.value)?.name || 'team member'));
+      toast('This device is set for ' + (people.find(p => p.id === select.value)?.name || 'team member'));
     };
     dlg.showModal();
   }
@@ -194,7 +200,7 @@
         <button type="button" class="ghost-btn" id="copyTeamLinkBtn">Copy team link</button>
         <button type="button" class="ghost-btn" id="changePersonBtn">Change person</button>
       </div>
-      <p class="auth-note">This phone: <strong>${esc(me?.name || 'Not selected')}</strong>. Treat the team link like a password and don’t post it publicly.</p>`;
+      <p class="auth-note">This device: <strong>${esc(me?.name || 'Not selected')}</strong>. Use the same name on your other devices. Treat the team link like a password and don’t post it publicly.</p>`;
     dlg.querySelector('#syncNowBtn').onclick = async () => {
       const ok = await pushSnapshot(true);
       if (ok) toast('Team workspace synced');

@@ -29,6 +29,7 @@
   let urgentCompose = false;
   let pollTimer = null;
   let refreshBusy = false;
+  let notificationMessage = params.get('message') || '';
 
   const esc = (s='') => String(s).replace(/[&<>\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const people = () => ops.getState().people || [];
@@ -185,9 +186,8 @@
       if (!msg.urgent && !isMentioned(msg)) continue;
       const sender = personById(msg.sender_id)?.name || 'Team';
       const title = msg.urgent ? 'Urgent C.P. Bourg message' : 'C.P. Bourg mention';
-      if ('Notification' in window && Notification.permission === 'granted') {
-        try { new Notification(title, { body: sender + ': ' + msg.body }); } catch {}
-      }
+      // OS notifications now come from the service worker, even with the app closed.
+      // Keep this in-app notice without generating a duplicate desktop notification.
       try { navigator.vibrate?.([120,70,120]); } catch {}
       toast((msg.urgent ? 'Urgent: ' : '') + sender + ': ' + msg.body.slice(0,90));
     }
@@ -212,6 +212,15 @@
         maybeNotify(fresh);
       }
       messages = next;
+      if (notificationMessage) {
+        const target = messages.find(m => m.id === notificationMessage);
+        if (target) {
+          activeChannel = target.channel;
+          if (target.channel === 'direct') dmTarget = target.sender_id === meId() ? target.recipient_id : target.sender_id;
+          if (target.channel === 'custom') customTargets = (target.participant_ids || []).filter(id => id !== meId());
+          notificationMessage = '';
+        }
+      }
       latestSeenAt = newest || latestSeenAt;
       initialized = true;
       updateBadge();
@@ -233,7 +242,7 @@
     const body = input?.value.trim() || '';
     if (!body) return;
     const id = meId();
-    if (!id) return toast('Choose who is using this phone first.');
+    if (!id) return toast('Choose who is using this device first.');
     if (activeChannel === 'direct' && !dmTarget) return toast('Choose a teammate first.');
     if (activeChannel === 'custom' && customParticipants().length < 2) return toast('Choose at least one teammate for the custom group.');
     const api = getClient();
@@ -329,9 +338,7 @@
         ${recentGroups.length?`<div class="label" style="margin-top:13px">Recent custom groups</div><div class="chat-tabs" style="margin-top:7px">${recentGroups.map((g,i)=>`<button type="button" class="chat-tab" data-custom-group="${i}">${g.ids.filter(id=>id!==self.id).map(id=>esc(personById(id)?.name.split(' ')[0]||id)).join(' + ')||'Group'}</button>`).join('')}</div>`:''}
       </div>` : '';
 
-    const alertButton = ('Notification' in window && Notification.permission === 'default')
-      ? '<button class="chat-alert-btn" id="chatEnableAlerts">Enable alerts</button>'
-      : '';
+    const alertButton = `<button type="button" class="chat-alert-btn" id="chatEnableAlerts">${esc(window.BourgPush?.label() || 'Enable alerts')}</button>`;
 
     root.innerHTML = `<section class="section chat-shell">
       <div class="chat-head"><div><h1 style="margin:0">Team Chat</h1><p class="muted small" style="margin:4px 0 0">Show-floor messages for C.P. Bourg Expo Ops.</p></div>${alertButton}</div>
@@ -346,7 +353,7 @@
           ${['On my way','Got it','Need help','I can cover'].map(q=>`<button type="button" class="chat-quick" data-quick="${q}">${q}</button>`).join('')}
         </div>
       </div>
-      <div class="chat-status">Signed in as <strong>${esc(self.name)}</strong> on this phone. Messages refresh automatically.</div>
+      <div class="chat-status">Using <strong>${esc(self.name)}</strong> on this device. You can choose the same name on your other devices.</div>
     </section>`;
 
     root.querySelectorAll('[data-chat-channel]').forEach(btn => btn.onclick = () => {
@@ -393,11 +400,7 @@
       input.focus();
     });
     const enable = document.getElementById('chatEnableAlerts');
-    if (enable) enable.onclick = async () => {
-      const result = await Notification.requestPermission();
-      toast(result === 'granted' ? 'Urgent message alerts enabled' : 'Alerts were not enabled');
-      render(root, false);
-    };
+    if (enable) enable.onclick = () => window.BourgPush?.open();
 
     markRead();
     setTimeout(() => {
@@ -426,6 +429,8 @@
   injectStyles();
   ensureNavBadge();
   window.BourgChat = { render, refresh: refreshMessages };
+
+  if (params.get('open') === 'chat') document.querySelector('.nav-btn[data-view="chat"]')?.click();
 
   const waitForPerson = setInterval(() => {
     if (!meId()) return;
