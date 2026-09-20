@@ -8,6 +8,7 @@
   const PERSON_STORAGE = 'cp-bourg-expo-device-person-v1';
   const CHANNEL_STORAGE = 'cp-bourg-chat-channel-v1';
   const DM_STORAGE = 'cp-bourg-chat-dm-v1';
+  const CUSTOM_STORAGE = 'cp-bourg-chat-custom-v1';
   const READ_PREFIX = 'cp-bourg-chat-read-v1:';
   const ops = window.BourgOps;
   const params = new URLSearchParams(window.location.search);
@@ -24,6 +25,7 @@
   let latestSeenAt = '';
   let activeChannel = localStorage.getItem(CHANNEL_STORAGE) || 'team';
   let dmTarget = localStorage.getItem(DM_STORAGE) || '';
+  let customTargets = (() => { try { const v=JSON.parse(localStorage.getItem(CUSTOM_STORAGE)||'[]'); return Array.isArray(v)?v:[]; } catch { return []; } })();
   let urgentCompose = false;
   let pollTimer = null;
   let refreshBusy = false;
@@ -79,7 +81,7 @@
       .chat-tools{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding-top:7px;border-top:1px solid #202b38}
       .chat-urgent-toggle{border:1px solid #4d3940;background:#1b1114;color:#ffadb3;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900}.chat-urgent-toggle.on{background:#4b171c;border-color:#8a3740;color:#fff}
       .chat-quick{border:1px solid #2d3a49;background:#151e28;color:#c7d0db;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:800}
-      .chat-direct-select{width:100%;min-height:44px;border:1px solid #354457;background:#0d141c;border-radius:13px;color:white;padding:8px 10px;font-size:14px}
+      .chat-member-grid{display:flex;flex-wrap:wrap;gap:7px}.chat-member-pill{position:relative}.chat-member-pill input{position:absolute;opacity:0;pointer-events:none}.chat-member-pill span{display:block;border:1px solid #304052;background:#121b25;color:#bdc8d5;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:850}.chat-member-pill input:checked+span{background:#2c1b13;border-color:#8a462b;color:#ffb08c}.chat-direct-select{width:100%;min-height:44px;border:1px solid #354457;background:#0d141c;border-radius:13px;color:white;padding:8px 10px;font-size:14px}
       .chat-status{font-size:11px;color:#8f9cab}.chat-alert-btn{border:1px solid #344456;background:#141e28;color:#d7dee7;border-radius:12px;padding:7px 9px;font-size:11px;font-weight:800}
       @media(max-width:420px){.bottom-nav{gap:1px;padding-left:4px;padding-right:4px}.nav-btn{font-size:9px}.nav-icon svg{width:19px;height:19px}.chat-msg{max-width:92%}}
     `;
@@ -89,7 +91,6 @@
   function canUseChannel(channel) {
     const group = me()?.group;
     if (channel === 'sales') return group === 'Sales';
-    if (channel === 'nts') return group === 'Technical';
     return true;
   }
 
@@ -120,13 +121,41 @@
       /@Team\b/i.test(msg.body || '');
   }
 
+  function customParticipants() {
+    const id = meId();
+    return [id, ...customTargets.filter(x => x && x !== id)].filter(Boolean).sort();
+  }
+
+  function sameParticipants(a,b) {
+    const aa=(a||[]).slice().sort(), bb=(b||[]).slice().sort();
+    return aa.length===bb.length && aa.every((x,i)=>x===bb[i]);
+  }
+
+  function recentCustomGroups() {
+    const seen = new Map();
+    messages.filter(m=>m.channel==='custom' && Array.isArray(m.participant_ids)).forEach(m=>{
+      const ids=m.participant_ids.slice().sort();
+      const key=ids.join('|');
+      const prev=seen.get(key);
+      if(!prev || m.created_at>prev.created_at) seen.set(key,{ids,created_at:m.created_at});
+    });
+    return [...seen.values()].sort((a,b)=>b.created_at.localeCompare(a.created_at)).slice(0,6);
+  }
+
   function visibleMessages() {
     const id = meId();
-    if (activeChannel !== 'direct') return messages.filter(m => m.channel === activeChannel);
-    if (!dmTarget) return [];
-    return messages.filter(m => m.channel === 'direct' &&
-      ((m.sender_id === id && m.recipient_id === dmTarget) ||
-       (m.sender_id === dmTarget && m.recipient_id === id)));
+    if (activeChannel === 'direct') {
+      if (!dmTarget) return [];
+      return messages.filter(m => m.channel === 'direct' &&
+        ((m.sender_id === id && m.recipient_id === dmTarget) ||
+         (m.sender_id === dmTarget && m.recipient_id === id)));
+    }
+    if (activeChannel === 'custom') {
+      const group=customParticipants();
+      if(group.length<2) return [];
+      return messages.filter(m => m.channel === 'custom' && sameParticipants(m.participant_ids,group));
+    }
+    return messages.filter(m => m.channel === activeChannel);
   }
 
   function markRead() {
@@ -171,7 +200,7 @@
     refreshBusy = true;
     try {
       const { data, error } = await api.from('team_messages')
-        .select('id,event_id,channel,sender_id,recipient_id,body,urgent,created_at')
+        .select('id,event_id,channel,sender_id,recipient_id,participant_ids,body,urgent,created_at')
         .eq('event_id', EVENT_ID)
         .order('created_at', { ascending: false })
         .limit(100);
@@ -203,12 +232,14 @@
     const id = meId();
     if (!id) return toast('Choose who is using this phone first.');
     if (activeChannel === 'direct' && !dmTarget) return toast('Choose a teammate first.');
+    if (activeChannel === 'custom' && customParticipants().length < 2) return toast('Choose at least one teammate for the custom group.');
     const api = getClient();
     const payload = {
       event_id: EVENT_ID,
       channel: activeChannel,
       sender_id: id,
       recipient_id: activeChannel === 'direct' ? dmTarget : null,
+      participant_ids: activeChannel === 'custom' ? customParticipants() : null,
       body,
       urgent: urgentCompose
     };
@@ -238,8 +269,9 @@
     const channelTabs = [
       {id:'team', label:'Team'},
       ...(self.group === 'Sales' ? [{id:'sales', label:'Sales'}] : []),
-      ...(self.group === 'Technical' ? [{id:'nts', label:'NTS'}] : []),
-      {id:'direct', label:'Direct'}
+      {id:'nts', label:'NTS'},
+      {id:'direct', label:'Direct'},
+      {id:'custom', label:'Custom'}
     ];
     const others = people().filter(p => p.id !== self.id);
     if (!dmTarget || !others.some(p => p.id === dmTarget)) {
@@ -262,6 +294,16 @@
         ${others.map(p => `<option value="${esc(p.id)}" ${p.id===dmTarget?'selected':''}>${esc(p.name)} — ${esc(p.title||'')}</option>`).join('')}
       </select></div>` : '';
 
+    const recentGroups = recentCustomGroups();
+    const customPicker = activeChannel === 'custom' ? `
+      <div class="card flat">
+        <div class="label">Choose people for this group</div>
+        <div class="chat-member-grid" style="margin-top:9px">
+          ${others.map(p=>`<label class="chat-member-pill"><input type="checkbox" data-custom-person="${esc(p.id)}" ${customTargets.includes(p.id)?'checked':''}><span>${esc(p.name.split(' ')[0])}</span></label>`).join('')}
+        </div>
+        ${recentGroups.length?`<div class="label" style="margin-top:13px">Recent custom groups</div><div class="chat-tabs" style="margin-top:7px">${recentGroups.map((g,i)=>`<button type="button" class="chat-tab" data-custom-group="${i}">${g.ids.filter(id=>id!==self.id).map(id=>esc(personById(id)?.name.split(' ')[0]||id)).join(' + ')||'Group'}</button>`).join('')}</div>`:''}
+      </div>` : '';
+
     const alertButton = ('Notification' in window && Notification.permission === 'default')
       ? '<button class="chat-alert-btn" id="chatEnableAlerts">Enable alerts</button>'
       : '';
@@ -270,9 +312,10 @@
       <div class="chat-head"><div><h1 style="margin:0">Team Chat</h1><p class="muted small" style="margin:4px 0 0">Show-floor messages for C.P. Bourg Expo Ops.</p></div>${alertButton}</div>
       <div class="chat-tabs">${channelTabs.map(c=>`<button class="chat-tab ${activeChannel===c.id?'active':''}" data-chat-channel="${c.id}">${c.label}</button>`).join('')}</div>
       ${directPicker}
+      ${customPicker}
       <div id="chatMessages" class="chat-messages">${messageHtml}</div>
       <div class="chat-composer">
-        <div class="chat-compose-row"><textarea id="chatInput" class="chat-input" rows="1" maxlength="1000" placeholder="${activeChannel==='direct'?'Message '+esc(personById(dmTarget)?.name||'teammate'):'Message '+activeChannel+'…'}"></textarea><button id="chatSend" class="chat-send" type="button" aria-label="Send">➤</button></div>
+        <div class="chat-compose-row"><textarea id="chatInput" class="chat-input" rows="1" maxlength="1000" placeholder="${activeChannel==='direct'?'Message '+esc(personById(dmTarget)?.name||'teammate'):activeChannel==='custom'?'Message custom group…':'Message '+activeChannel+'…'}"></textarea><button id="chatSend" class="chat-send" type="button" aria-label="Send">➤</button></div>
         <div class="chat-tools"><button type="button" id="chatUrgent" class="chat-urgent-toggle ${urgentCompose?'on':''}">⚠ Urgent</button>
           ${['On my way','Got it','Need help','I can cover'].map(q=>`<button type="button" class="chat-quick" data-quick="${q}">${q}</button>`).join('')}
         </div>
@@ -293,6 +336,23 @@
       render(root, false);
       markRead();
     };
+    root.querySelectorAll('[data-custom-person]').forEach(box=>box.onchange=()=>{
+      const id=box.dataset.customPerson;
+      if(box.checked && !customTargets.includes(id)) customTargets.push(id);
+      if(!box.checked) customTargets=customTargets.filter(x=>x!==id);
+      customTargets=[...new Set(customTargets)].filter(x=>x!==self.id);
+      localStorage.setItem(CUSTOM_STORAGE,JSON.stringify(customTargets));
+      render(root,false);
+      markRead();
+    });
+    root.querySelectorAll('[data-custom-group]').forEach(btn=>btn.onclick=()=>{
+      const g=recentGroups[Number(btn.dataset.customGroup)];
+      if(!g) return;
+      customTargets=g.ids.filter(id=>id!==self.id);
+      localStorage.setItem(CUSTOM_STORAGE,JSON.stringify(customTargets));
+      render(root,false);
+      markRead();
+    });
     document.getElementById('chatSend').onclick = sendMessage;
     const input = document.getElementById('chatInput');
     input.addEventListener('keydown', e => {
