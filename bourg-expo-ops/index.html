@@ -118,11 +118,11 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.app-shell{min-
       {id:'jim',name:'Jim Tressler',title:'Senior VP, USA',group:'Sales',status:'Available',location:'Canon'},
       {id:'dan',name:'Dan Attew',title:'Sales Director, EMEA & APAC',group:'Sales',status:'Available',location:'Xerox'},
       {id:'sean',name:'Sean Edmonds',title:'Regional Sales Manager',group:'Sales',status:'Available',location:'C.P. Bourg'},
-      {id:'chuck',name:'Chuck Cartier',title:'National Technician',group:'Technical',status:'Available',location:'C.P. Bourg'},
-      {id:'tim',name:'Tim Thompson',title:'National Technician',group:'Technical',status:'Available',location:'Xerox'},
-      {id:'james',name:'Jayme Varao',title:'National Technician',group:'Technical',status:'Available',location:'C.P. Bourg'},
-      {id:'luis',name:'Luis Fernandez',title:'National Technician',group:'Technical',status:'Available',location:'Canon'},
-      {id:'shadrach',name:'Shadrach Santiago',title:'National Technician',group:'Technical',status:'Available',location:'Canon'}
+      {id:'chuck',name:'Chuck Cartier',title:'Manager - NTS',group:'Technical',status:'Available',location:'C.P. Bourg'},
+      {id:'tim',name:'Tim Thompson',title:'NTS',group:'Technical',status:'Available',location:'Xerox'},
+      {id:'james',name:'Jayme Varao',title:'NTS',group:'Technical',status:'Available',location:'C.P. Bourg'},
+      {id:'luis',name:'Luis Fernandez',title:'NTS',group:'Technical',status:'Available',location:'Canon'},
+      {id:'shadrach',name:'Shadrach Santiago',title:'NTS',group:'Technical',status:'Available',location:'Canon'}
     ],
     assignments:{
       wed:[
@@ -179,7 +179,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.app-shell{min-
     out.assignments={...clone(baseState.assignments),...((s||{}).assignments||{})};
     for(const k of ['appointments','coverageRequests','techTasks','issues','rides','people','booths']) if(!Array.isArray(out[k])) out[k]=clone(baseState[k]||[]);
     const normalizeLocation=v=>v==='Bourg'?'C.P. Bourg':v;
-    out.people.forEach(p=>{ p.location=normalizeLocation(p.location); if(p.id==='sean') p.name='Sean Edmonds'; if(p.id==='charles') p.title='CEO'; });
+    out.people.forEach(p=>{ p.location=normalizeLocation(p.location); if(p.id==='sean') p.name='Sean Edmonds'; if(p.id==='charles') p.title='CEO'; if(p.id==='chuck') p.title='Manager - NTS'; if(['tim','james','luis','shadrach'].includes(p.id)) p.title='NTS'; });
     const hierarchy={charles:1,jim:2,dan:3,sean:4,chuck:5,tim:6,james:7,luis:8,shadrach:9};
     out.people.sort((a,b)=>(hierarchy[a.id]??999)-(hierarchy[b.id]??999));
     out.booths.forEach(b=>{ if(b.id==='bourg') b.name='C.P. Bourg'; });
