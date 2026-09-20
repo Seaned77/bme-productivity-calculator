@@ -50,6 +50,20 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.app-shell{min-
 @media(max-width:420px){.hero{padding-left:16px;padding-right:16px}.content{padding-left:12px;padding-right:12px}.hero-title{font-size:31px}.event-chip{margin-left:0}.logo-panel{max-width:205px}.header-actions{align-self:flex-start}.header-actions .compact{padding:7px 9px}}
 
 
+
+/* Personalized Today dashboard */
+.today-scope{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:5px;border:1px solid var(--line);background:#0c1219;border-radius:16px}
+.today-scope-btn{min-height:39px;border:1px solid transparent;background:transparent;color:#94a1af;border-radius:12px;font-size:11px;font-weight:850;padding:7px 6px}
+.today-scope-btn.active{background:#261912;border-color:#70402c;color:#ffaf8c}
+.today-command{background:linear-gradient(145deg,#172331,#10171f 58%,#21150f);border-color:#3b4857;padding:15px}
+.today-command-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.today-command-title{font-size:22px;font-weight:950;line-height:1.08;margin-top:4px}.today-command-sub{font-size:11px;color:var(--muted);margin-top:5px}
+.today-next{margin-top:12px;border:1px solid #3b4958;background:#111a24;border-radius:16px;padding:12px}.today-next-main{font-size:18px;font-weight:900;margin-top:3px}.today-next-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.today-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.today-stat{border:1px solid #2c3947;background:#0e151d;border-radius:13px;padding:9px}.today-stat strong{display:block;font-size:18px}.today-stat span{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+.today-schedule{display:grid;gap:7px;margin-top:10px}.today-schedule-row{display:grid;grid-template-columns:58px 1fr;gap:9px;align-items:center;border:1px solid #283543;background:#0e151d;border-radius:13px;padding:9px}.today-schedule-row .when{color:#ff9b72;font-size:10px;font-weight:900}.today-schedule-row .what{font-size:12px;font-weight:800}.today-schedule-row .why{font-size:10px;color:var(--muted);margin-top:2px}
+.today-attention{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.today-attention span{border:1px solid #344354;background:#111a24;border-radius:999px;padding:6px 8px;font-size:10px;color:#c7d0da}.today-attention span.hot{border-color:#694333;background:#21150f;color:#ffb08d}
+.scope-roster{display:grid;gap:7px;margin-top:10px}.scope-person{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center;border:1px solid #293644;background:#0e151d;border-radius:13px;padding:10px}.scope-person strong{font-size:12px}.scope-person .sub{font-size:10px;color:var(--muted);margin-top:3px}.scope-person .loc{text-align:right;font-size:10px;color:#d0d8e0;max-width:128px}
+@media(max-width:420px){.today-command-title{font-size:20px}.today-stat-row{gap:5px}.today-stat{padding:8px}.today-scope-btn{font-size:10px}}
+
 /* Operations layer */
 .mode-banner{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#101821;border-radius:14px;padding:10px 12px;font-size:11px;letter-spacing:.06em;color:#aeb9c5}.mode-banner strong{font-size:11px;color:#fff}.mode-banner span:last-child{margin-left:auto;letter-spacing:0;text-transform:none;color:var(--muted)}.mode-dot{width:8px;height:8px;border-radius:50%;background:#7d8b9a}.mode-banner.show{border-color:#4f392e;background:#19130f}.mode-banner.show .mode-dot{background:var(--orange);box-shadow:0 0 0 5px rgba(255,90,31,.08)}.mode-banner.setup{border-color:#294457;background:#0e1922}.mode-banner.setup .mode-dot{background:#65b8ef}.mode-banner.teardown{border-color:#5b3d31;background:#1c130f}.mode-banner.teardown .mode-dot{background:#ff9a70}
 .reminder-line{margin-top:9px;color:#93a0ae;font-size:11px}.coverage-stack{display:grid;gap:8px;margin-top:10px}.coverage-board{padding:14px}.coverage-grid{display:grid;gap:8px;margin-top:12px}.coverage-row{display:grid;grid-template-columns:58px repeat(3,1fr);gap:6px;align-items:stretch}.coverage-time{display:grid;place-items:center;color:#ff9c73;font-size:11px;font-weight:850}.coverage-cell{min-width:0;border:1px solid var(--line);background:#111923;border-radius:12px;padding:8px}.coverage-cell strong{display:block;font-size:10px}.coverage-cell span{display:block;margin-top:4px;font-size:9px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.coverage-cell.covered{border-color:#284b3a;background:#0e1915}.coverage-cell.gap{border-color:#624333;background:#1b130f}.coverage-cell.gap span{color:#ffb08d}.appointment-list{display:grid;gap:8px;margin-top:10px}.appointment-card{width:100%;display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);background:#0f161f;color:white;border-radius:16px;padding:11px;text-align:left}.appt-time{font-size:12px;font-weight:900;color:#ff9a70}.appt-main{min-width:0}.appt-main strong,.appt-main span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.appt-main strong{font-size:13px}.appt-main span{font-size:10px;color:var(--muted);margin-top:3px}.appt-arrow{font-size:24px;color:#6f7e8f}.compact-empty{padding:13px}.task-list{display:grid;gap:8px;margin-top:10px}.task-row{display:grid;grid-template-columns:38px 1fr auto;gap:9px;align-items:center;border:1px solid var(--line);background:#0f161f;border-radius:15px;padding:10px}.task-row.done{opacity:.66}.task-row.done .task-main strong{text-decoration:line-through}.task-check{width:36px;height:36px;border-radius:11px;border:1px solid #3a4a5d;background:#141f2a;color:#83efb7;font-size:17px;font-weight:900}.task-main{min-width:0}.task-main strong,.task-main span{display:block}.task-main strong{font-size:12px}.task-main span{font-size:10px;color:var(--muted);margin-top:4px}
@@ -99,6 +113,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.app-shell{min-
 (() => {
   'use strict';
   const KEY = 'bourg-expo-ops-v1';
+  const TODAY_SCOPE_KEY = 'cp-bourg-today-scope-v1';
   const EVENT_DAYS = [
     {id:'setup',label:'Tue Sep 22',name:'Setup Day'},
     {id:'wed',label:'Wed Sep 23',name:'Day 1'},
@@ -222,8 +237,71 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.app-shell{min-
   function assignmentAt(personId,time){ return (state.assignments[state.selectedDay]||[]).find(a=>a.personId===personId && a.start<=time && a.end>time); }
   function coverageSlots(){ const end=state.selectedDay==='fri'?'15:00':'17:00'; const starts=['09:00','11:00','13:00','15:00'].filter(t=>t<end); return starts.map(t=>({time:t,booths:state.booths.map(b=>{const loc=b.name; const sales=state.people.filter(p=>p.group==='Sales').filter(p=>assignmentAt(p.id,t)?.location===loc); return {id:b.id,name:b.name,code:b.code,sales};})})); }
   function plannedCoverageGaps(){ if(!['wed','thu','fri'].includes(state.selectedDay)) return []; return coverageSlots().flatMap(slot=>slot.booths.filter(b=>!b.sales.length).map(b=>({time:slot.time,booth:b}))); }
+  function todayScope(){ const v=localStorage.getItem(TODAY_SCOPE_KEY); return ['mine','group','team'].includes(v)?v:'mine'; }
+  function groupNameFor(p){ return p?.group==='Technical'?'NTS':'Sales'; }
+  function dayAssignmentsFor(personId){ return (state.assignments[state.selectedDay]||[]).filter(a=>a.personId===personId).sort((a,b)=>a.start.localeCompare(b.start)); }
+  function assignmentSummary(p){
+    const a=currentAssignment(p.id);
+    if(!a) return {main:'No assignment',sub:p.status||'Available'};
+    return {main:`${a.location}${locationCode(a.location)?' • '+locationCode(a.location):''}`,sub:`${fmtTime(a.start)}–${fmtTime(a.end)} • ${a.activity}`};
+  }
+  function todayScopeTabs(me,scope){
+    const groupLabel=groupNameFor(me);
+    return `<div class="today-scope">
+      <button class="today-scope-btn ${scope==='mine'?'active':''}" data-today-scope="mine">Mine</button>
+      <button class="today-scope-btn ${scope==='group'?'active':''}" data-today-scope="group">My Group • ${esc(groupLabel)}</button>
+      <button class="today-scope-btn ${scope==='team'?'active':''}" data-today-scope="team">Team</button>
+    </div>`;
+  }
+  function mineDashboard(me){
+    const list=dayAssignmentsFor(me.id);
+    const next=currentAssignment(me.id);
+    const myAppts=dayAppointments().filter(a=>(a.ownerIds||[]).includes(me.id));
+    const myRides=state.rides.filter(r=>r.day===state.selectedDay && (r.joined||[]).includes(me.id));
+    const myIssues=state.issues.filter(i=>i.status!=='Resolved' && i.assignedTo===me.name);
+    const myCoverage=state.coverageRequests.filter(r=>r.day===state.selectedDay && r.status!=='Resolved' && r.createdBy===me.id);
+    return `<div class="card today-command">
+      <div class="today-command-head"><div><div class="label">My Day</div><div class="today-command-title">${esc(me.name)}</div><div class="today-command-sub">${esc(me.title)} • ${esc(me.status)} • currently ${esc(me.location)}</div></div><span class="pill neutral">${esc(groupNameFor(me))}</span></div>
+      <div class="today-next"><div class="label">Where should I be?</div><div class="today-next-main">${next?`${esc(next.location)} ${locationCode(next.location)?'• '+locationCode(next.location):''}`:'No assignment yet'}</div><div class="today-next-sub">${next?`${fmtTime(next.start)}–${fmtTime(next.end)} • ${esc(next.activity)}`:'No assignment has been added for this day.'}</div></div>
+      <div class="today-stat-row"><div class="today-stat"><strong>${list.length}</strong><span>Assignments</span></div><div class="today-stat"><strong>${myAppts.length}</strong><span>Meetings</span></div><div class="today-stat"><strong>${myIssues.length+myCoverage.length}</strong><span>Needs attention</span></div></div>
+      <div class="label" style="margin-top:13px">My schedule</div>
+      <div class="today-schedule">${list.length?list.slice(0,5).map(a=>`<div class="today-schedule-row"><div class="when">${fmtTime(a.start)}</div><div><div class="what">${esc(a.location)} ${locationCode(a.location)?'• '+locationCode(a.location):''}</div><div class="why">${fmtTime(a.start)}–${fmtTime(a.end)} • ${esc(a.activity)}</div></div></div>`).join(''):'<div class="empty compact-empty">Nothing scheduled yet.</div>'}</div>
+      <div class="today-attention">${myAppts.length?`<span>${myAppts.length} customer meeting${myAppts.length===1?'':'s'}</span>`:''}${myRides.length?`<span>${myRides.length} joined ride${myRides.length===1?'':'s'}</span>`:''}${myIssues.length?`<span class="hot">${myIssues.length} tech issue${myIssues.length===1?'':'s'}</span>`:''}${myCoverage.length?`<span class="hot">${myCoverage.length} coverage request${myCoverage.length===1?'':'s'}</span>`:''}${!myAppts.length&&!myRides.length&&!myIssues.length&&!myCoverage.length?'<span>Nothing else needs your attention right now.</span>':''}</div>
+      <div class="actions"><button class="primary-btn" id="checkInBtn">I'm here</button><button class="ghost-btn" id="needCoverageBtn">Need coverage</button><button class="ghost-btn compact" id="reminderBtn">Reminders</button><button class="ghost-btn compact" data-jump-view="chat">Chat</button></div>
+    </div>`;
+  }
+  function groupDashboard(me){
+    const members=state.people.filter(p=>p.group===me.group);
+    const ids=new Set(members.map(p=>p.id));
+    const groupLabel=groupNameFor(me);
+    const groupAppts=dayAppointments().filter(a=>(a.ownerIds||[]).some(id=>ids.has(id)));
+    const openIssues=state.issues.filter(i=>i.status!=='Resolved' && (me.group==='Technical' ? (!i.assignedTo || members.some(p=>p.name===i.assignedTo)) : false));
+    const openCoverage=state.coverageRequests.filter(r=>r.day===state.selectedDay && r.status!=='Resolved');
+    const attention=me.group==='Technical'?openIssues.length:(openCoverage.length+plannedCoverageGaps().length);
+    return `<div class="card today-command">
+      <div class="today-command-head"><div><div class="label">My Group</div><div class="today-command-title">${esc(groupLabel)} at a glance</div><div class="today-command-sub">${members.length} people • personalized for ${esc(me.name)}</div></div><span class="pill neutral">${members.length} members</span></div>
+      <div class="today-stat-row"><div class="today-stat"><strong>${members.filter(p=>p.status!=='Off Duty').length}</strong><span>Active</span></div><div class="today-stat"><strong>${groupAppts.length}</strong><span>${me.group==='Sales'?'Meetings':'Group meetings'}</span></div><div class="today-stat"><strong>${attention}</strong><span>Needs attention</span></div></div>
+      <div class="label" style="margin-top:13px">Where everyone should be</div>
+      <div class="scope-roster">${members.map(p=>{const s=assignmentSummary(p);return `<div class="scope-person"><div><strong>${esc(p.name)}</strong><div class="sub">${esc(p.status)} • currently ${esc(p.location)}</div></div><div class="loc">${esc(s.main)}<div class="sub">${esc(s.sub)}</div></div></div>`;}).join('')}</div>
+      <div class="today-attention">${me.group==='Technical'?(openIssues.length?`<span class="hot">${openIssues.length} open NTS issue${openIssues.length===1?'':'s'}</span>`:'<span>No open NTS issues.</span>'):(openCoverage.length?`<span class="hot">${openCoverage.length} coverage request${openCoverage.length===1?'':'s'}</span>`:'')}${me.group==='Sales'&&plannedCoverageGaps().length?`<span class="hot">${plannedCoverageGaps().length} planned coverage gap${plannedCoverageGaps().length===1?'':'s'}</span>`:''}</div>
+      <div class="actions"><button class="ghost-btn compact" data-jump-view="${me.group==='Technical'?'tech':'schedule'}">${me.group==='Technical'?'Open Tech Ops':'Open Schedule'}</button><button class="ghost-btn compact" data-jump-view="chat">Open Chat</button></div>
+    </div>`;
+  }
+  function teamDashboard(me){
+    const openIssues=state.issues.filter(i=>i.status!=='Resolved');
+    const rides=state.rides.filter(r=>r.day===state.selectedDay);
+    const gaps=plannedCoverageGaps();
+    return `<div class="card today-command">
+      <div class="today-command-head"><div><div class="label">Team</div><div class="today-command-title">C.P. Bourg team picture</div><div class="today-command-sub">All 9 people • all three partner locations</div></div><span class="pill neutral">${state.people.length} people</span></div>
+      <div class="today-stat-row"><div class="today-stat"><strong>${state.people.filter(p=>p.status!=='Off Duty').length}</strong><span>Active</span></div><div class="today-stat"><strong>${openIssues.length}</strong><span>Open issues</span></div><div class="today-stat"><strong>${gaps.length}</strong><span>Coverage gaps</span></div></div>
+      <div class="label" style="margin-top:13px">Current plan</div>
+      <div class="scope-roster">${state.people.map(p=>{const s=assignmentSummary(p);return `<div class="scope-person"><div><strong>${esc(p.name)}</strong><div class="sub">${esc(groupNameFor(p))} • ${esc(p.status)}</div></div><div class="loc">${esc(s.main)}<div class="sub">${esc(s.sub)}</div></div></div>`;}).join('')}</div>
+      <div class="today-attention">${rides.length?`<span>${rides.length} ride${rides.length===1?'':'s'} planned</span>`:''}${openIssues.length?`<span class="hot">${openIssues.length} open issue${openIssues.length===1?'':'s'}</span>`:''}${gaps.length?`<span class="hot">${gaps.length} coverage gap${gaps.length===1?'':'s'}</span>`:'<span>Sales coverage plan has no detected gaps.</span>'}</div>
+      <div class="actions"><button class="ghost-btn compact" data-jump-view="schedule">Team Schedule</button><button class="ghost-btn compact" data-jump-view="team">Team Status</button><button class="ghost-btn compact" data-jump-view="chat">Team Chat</button></div>
+    </div>`;
+  }
   function renderToday(){
-    const me=person(state.currentUserId)||state.people[0]; const next=currentAssignment(me.id); const phase=phaseInfo(); const appts=dayAppointments();
+    const me=person(state.currentUserId)||state.people[0]; const next=currentAssignment(me.id); const phase=phaseInfo(); const appts=dayAppointments(); const scope=todayScope();
     const boothCards=state.booths.map(b=>{
       const loc=b.name;
       const assigned=state.people.filter(p=>p.location===loc && p.status!=='Off Duty');
@@ -232,19 +310,23 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.app-shell{min-
     const liveSales={}; state.booths.forEach(b=>liveSales[b.id]=0);
     state.people.filter(p=>p.group==='Sales').forEach(p=>{const b=state.booths.find(x=>x.name===p.location);if(b)liveSales[b.id]++;});
     const liveGaps=state.booths.filter(b=>liveSales[b.id]===0); const planned=plannedCoverageGaps();
+    const dashboard=scope==='mine'?mineDashboard(me):scope==='group'?groupDashboard(me):teamDashboard(me);
     main.innerHTML=`<section class="section">${dayStrip()}
+      ${todayScopeTabs(me,scope)}
+      ${dashboard}
       <div class="mode-banner ${phase.cls}"><span class="mode-dot"></span><strong>${phase.label}</strong><span>${esc(EVENT_DAYS.find(d=>d.id===state.selectedDay)?.name||'')}</span></div>
-      <div class="card next-card"><div class="row"><div><div class="label">Where should I be?</div><div class="big">${next?`${esc(next.location)} ${locationCode(next.location)?'• '+locationCode(next.location):''}`:'No assignment yet'}</div><div class="muted small" style="margin-top:5px">${next?`${fmtTime(next.start)}–${fmtTime(next.end)} • ${esc(next.activity)}`:'Tap Schedule to add one.'}</div><div class="reminder-line">⏱ ${state.reminderMinutes}-minute assignment reminder</div></div><div class="pill neutral">${esc(me.name)}</div></div><div class="actions"><button class="primary-btn" id="checkInBtn">I'm here</button><button class="ghost-btn" id="needCoverageBtn">Need coverage</button><button class="ghost-btn compact" id="reminderBtn">Reminders</button></div></div>
       <div><div class="section-head"><div><h2>Booth status</h2><p>Live equipment and staffing across all three locations.</p></div></div><div class="booth-grid" style="margin-top:10px">${boothCards}</div></div>
       <div class="metric-grid"><div class="metric"><strong>3</strong><span>Booths</span></div><div class="metric"><strong>${state.people.length}</strong><span>Team</span></div><div class="metric"><strong>${state.issues.filter(i=>i.status!=='Resolved').length}</strong><span>Issues</span></div></div>
       <div><div class="section-head"><div><h2>Customer appointments</h2><p>${appts.length?`${appts.length} scheduled for this day`:'Add customer meetings and demos here.'}</p></div><button class="ghost-btn compact" id="quickAppt">+ Appointment</button></div><div class="appointment-list">${appts.length?appts.slice(0,4).map(a=>appointmentCard(a)).join(''):'<div class="empty compact-empty">No appointments yet.</div>'}</div></div>
       <div><div class="section-head"><div><h2>Coverage</h2><p>Live check-ins plus planned schedule gaps.</p></div></div><div class="coverage-stack">${liveGaps.length?liveGaps.map(b=>`<div class="alert">⚠ Live: ${esc(b.name)} has no sales person checked in.</div>`).join(''):'<div class="alert ok">✓ All three booths currently have live sales coverage.</div>'}${planned.length?`<div class="alert">⚠ Planned: ${planned.length} booth/time gap${planned.length===1?'':'s'} in this day's draft schedule.</div>`:''}</div></div>
     </section>`;
     bindDayChips();
-    document.getElementById('checkInBtn').onclick=()=>{if(next){me.location=next.location;me.status=me.group==='Technical'?'Available':'Manning Booth';save();showToast(`Checked in: ${next.location}`);render();}else showToast('Add an assignment first.');};
-    document.getElementById('needCoverageBtn').onclick=()=>openCoverageRequest(next?.location||'C.P. Bourg');
+    main.querySelectorAll('[data-today-scope]').forEach(btn=>btn.onclick=()=>{localStorage.setItem(TODAY_SCOPE_KEY,btn.dataset.todayScope);render();window.scrollTo({top:0,behavior:'smooth'});});
+    main.querySelectorAll('[data-jump-view]').forEach(btn=>btn.onclick=()=>{state.selectedView=btn.dataset.jumpView;save();render();window.scrollTo({top:0,behavior:'smooth'});});
+    const checkIn=document.getElementById('checkInBtn'); if(checkIn)checkIn.onclick=()=>{if(next){me.location=next.location;me.status=me.group==='Technical'?'Available':'Manning Booth';save();showToast(`Checked in: ${next.location}`);render();}else showToast('Add an assignment first.');};
+    const coverage=document.getElementById('needCoverageBtn'); if(coverage)coverage.onclick=()=>openCoverageRequest(next?.location||'C.P. Bourg');
+    const reminder=document.getElementById('reminderBtn'); if(reminder)reminder.onclick=()=>openReminderSettings();
     document.getElementById('quickAppt').onclick=()=>openAppointment();
-    document.getElementById('reminderBtn').onclick=()=>openReminderSettings();
     main.querySelectorAll('[data-booth-id]').forEach(btn=>btn.onclick=()=>openBooth(btn.dataset.boothId));
     main.querySelectorAll('[data-appt]').forEach(btn=>btn.onclick=()=>openAppointment(btn.dataset.appt));
   }
