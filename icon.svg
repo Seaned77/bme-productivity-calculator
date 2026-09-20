@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#0b2b4c"/>
-  <path d="M126 142h188c48 0 87 39 87 87v0c0 48-39 87-87 87H126z" fill="#fff" opacity=".96"/>
-  <path d="M126 316h217c24 0 43 19 43 43s-19 43-43 43H126z" fill="#e4a829"/>
-  <path d="M177 196h145c18 0 33 15 33 33s-15 33-33 33H177z" fill="#1769aa"/>
-  <text x="256" y="112" text-anchor="middle" font-family="Arial,sans-serif" font-size="58" font-weight="800" fill="#fff">BMe</text>
+<rect width="512" height="512" rx="112" fill="#0b0f14"/>
+<rect x="82" y="82" width="348" height="348" rx="54" fill="#ff5a1f"/>
+<rect x="116" y="332" width="58" height="58" fill="#0b0f14"/>
+<text x="256" y="280" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="104" font-weight="700" fill="#0b0f14">CPB</text>
 </svg>
