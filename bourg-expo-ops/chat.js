@@ -216,7 +216,10 @@
       initialized = true;
       updateBadge();
       if (renderAfter && ops.getState().selectedView === 'chat') {
-        render(document.getElementById('mainContent'), false);
+        const active = document.activeElement;
+        const editing = active && document.getElementById('mainContent')?.contains(active)
+          && ['SELECT','INPUT','TEXTAREA'].includes(active.tagName);
+        if (!editing) render(document.getElementById('mainContent'), false);
       }
     } catch (err) {
       if (ops.getState().selectedView === 'chat') toast(err?.message || 'Unable to refresh messages');
