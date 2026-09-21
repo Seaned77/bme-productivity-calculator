@@ -285,9 +285,10 @@
       {id:'direct', label:'Direct'},
       {id:'custom', label:'Custom'}
     ];
+    const directPeople = people();
     const others = people().filter(p => p.id !== self.id);
-    if (!dmTarget || !others.some(p => p.id === dmTarget)) {
-      dmTarget = others[0]?.id || '';
+    if (!dmTarget || !directPeople.some(p => p.id === dmTarget)) {
+      dmTarget = self.id || directPeople[0]?.id || '';
       if (dmTarget) localStorage.setItem(DM_STORAGE, dmTarget);
     }
 
@@ -303,7 +304,7 @@
 
     const directPicker = activeChannel === 'direct' ? `
       <div class="field"><label>Conversation with</label><select class="chat-direct-select" id="chatDmTarget">
-        ${others.map(p => `<option value="${esc(p.id)}" ${p.id===dmTarget?'selected':''}>${esc(p.name)} — ${esc(p.title||'')}</option>`).join('')}
+        ${directPeople.map(p => `<option value="${esc(p.id)}" ${p.id===dmTarget?'selected':''}>${esc(p.name)}${p.id===self.id?' (You)':''} — ${esc(p.title||'')}</option>`).join('')}
       </select></div>` : '';
 
     function recipientNames() {
