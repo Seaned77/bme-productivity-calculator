@@ -1,4 +1,4 @@
-const CACHE='cp-bourg-expo-ops-v15';
+const CACHE='cp-bourg-expo-ops-v16';
 const ASSETS=['./','index.html','sync.js?v=6','chat.js?v=5','push.js?v=1','manifest.webmanifest','icon.svg','las-vegas-sign-transparent.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('cp-bourg-expo-ops-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
