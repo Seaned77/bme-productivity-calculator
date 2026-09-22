@@ -62,7 +62,7 @@
     const style = document.createElement('style');
     style.id = 'bourgChatStyles';
     style.textContent = `
-      .bottom-nav{grid-template-columns:repeat(6,1fr)}
+      .bottom-nav{grid-template-columns:repeat(7,1fr)}
       .nav-btn{position:relative}
       .chat-badge{position:absolute;top:2px;right:calc(50% - 22px);min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:#ff5c66;color:#fff;font-size:9px;font-weight:950;display:none;place-items:center;border:2px solid #080c11;line-height:13px}
       .chat-badge.show{display:grid}.chat-badge.urgent{background:#ff3b30;box-shadow:0 0 0 5px rgba(255,59,48,.12)}
