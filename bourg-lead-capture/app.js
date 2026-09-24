@@ -22,7 +22,7 @@
     'Shadrach Santiago'
   ];
 
-  const PRODUCTS = ['BM-e / BM-e Pro','BB3002','BBL','CMT-330','BPM','Other'];
+  const PRODUCTS = ['BMe / BBM','BB3002','BBL','CMT-330','BPM','Other'];
 
   const $ = (id) => document.getElementById(id);
   const gate = $('gate');
