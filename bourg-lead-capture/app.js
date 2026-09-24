@@ -18,7 +18,7 @@
     'Chuck Cartier',
     'Luis Fernandez',
     'Tim Thompson',
-    'James Varao',
+    'Jayme Varao',
     'Shadrach Santiago'
   ];
 
