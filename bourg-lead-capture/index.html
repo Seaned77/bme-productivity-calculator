@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f47b20">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Bourg Leads">
+  <title>Bourg Lead Capture</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section id="gate" class="gate hidden">
+    <div class="card gate-card">
+      <div class="gate-logo">CPB</div>
+      <h1>Private team link required</h1>
+      <p>This lead repository contains customer badge photos and sales notes. Open the private Bourg Lead Capture link shared with your team.</p>
+      <p class="small">The Expo Ops link does not unlock this app. Lead Capture uses its own private access key.</p>
+    </div>
+  </section>
+
+  <div id="app" class="hidden">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-mark">CPB</div>
+          <div class="brand-text">
+            <div class="brand-title">Bourg Lead Capture</div>
+            <div class="brand-sub">Printing United Expo 2026</div>
+          </div>
+        </div>
+        <button id="syncStatus" class="status-pill" type="button">
+          <span class="status-dot"></span><span id="syncLabel">Connecting</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <h1>Capture the conversation.</h1>
+        <p>Photograph the badge, add the sales context while it is fresh, and the whole team gets one searchable lead repository.</p>
+      </section>
+
+      <nav class="nav-tabs" aria-label="Lead Capture views">
+        <button class="nav-btn active" data-view="capture" type="button">📷 Capture Lead</button>
+        <button class="nav-btn" data-view="leads" type="button">📋 Lead Repository</button>
+      </nav>
+
+      <section id="captureView">
+        <div id="queueBanner" class="queue-banner hidden"></div>
+        <form id="leadForm" class="card form-card">
+          <div class="section-title">1. Badge photo</div>
+          <div class="camera-box">
+            <input id="badgeInput" type="file" accept="image/*" capture="environment" aria-label="Take customer badge photo">
+            <img id="badgePreview" class="hidden" alt="Customer badge preview">
+            <div id="cameraPrompt" class="camera-prompt">
+              <div>
+                <span class="camera-icon">📷</span>
+                <div class="camera-title">Take badge photo</div>
+                <div class="camera-sub">Tap here to open the camera</div>
+              </div>
+            </div>
+            <div id="cameraActions" class="camera-actions hidden">
+              <button id="retakeBtn" class="mini-btn" type="button">Retake</button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-title">2. Who & where</div>
+          <div class="grid two">
+            <div class="field">
+              <label for="capturedBy">Captured by</label>
+              <select id="capturedBy" class="select" required></select>
+            </div>
+            <div class="field">
+              <label for="captureLocation">Location</label>
+              <select id="captureLocation" class="select">
+                <option>C.P. Bourg booth</option>
+                <option>Canon booth</option>
+                <option>Xerox booth</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-title">3. Lead quality</div>
+          <div class="priority" role="radiogroup" aria-label="Lead priority">
+            <div><input id="pHot" name="priority" type="radio" value="Hot"><label for="pHot">🔥 Hot</label></div>
+            <div><input id="pWarm" name="priority" type="radio" value="Warm" checked><label for="pWarm">🟠 Warm</label></div>
+            <div><input id="pFollow" name="priority" type="radio" value="Follow-up"><label for="pFollow">📞 Follow-up</label></div>
+            <div><input id="pInfo" name="priority" type="radio" value="Info only"><label for="pInfo">ℹ️ Info only</label></div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-title">4. Product interest</div>
+          <div id="productChips" class="chips"></div>
+
+          <div class="divider"></div>
+          <div class="section-title">5. Conversation notes</div>
+          <div class="field">
+            <label for="notes">What did they need?</label>
+            <textarea id="notes" class="textarea" placeholder="Application, current equipment, volume, pain points, timing, budget, next step…"></textarea>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-title">Optional badge details</div>
+          <div class="grid two">
+            <div class="field"><label for="customerName">Name</label><input id="customerName" class="input" autocomplete="name"></div>
+            <div class="field"><label for="company">Company</label><input id="company" class="input" autocomplete="organization"></div>
+            <div class="field"><label for="jobTitle">Title</label><input id="jobTitle" class="input" autocomplete="organization-title"></div>
+            <div class="field"><label for="email">Email</label><input id="email" class="input" type="email" autocomplete="email"></div>
+            <div class="field"><label for="phone">Phone</label><input id="phone" class="input" type="tel" autocomplete="tel"></div>
+            <div class="field"><label for="followDate">Follow-up date</label><input id="followDate" class="input" type="date"></div>
+          </div>
+          <div class="field" style="margin-top:12px">
+            <label for="followAction">Follow-up action</label>
+            <input id="followAction" class="input" placeholder="Send samples, schedule demo, quote BM-e Pro…">
+          </div>
+
+          <div class="divider"></div>
+          <button id="saveLeadBtn" class="primary" type="submit">Save Lead</button>
+          <p class="form-help">If the show-floor connection drops, the lead is kept on this device and automatically syncs when the connection returns.</p>
+        </form>
+      </section>
+
+      <section id="leadsView" class="hidden">
+        <div class="stats">
+          <div class="stat"><div id="statTotal" class="stat-num">0</div><div class="stat-label">Leads</div></div>
+          <div class="stat"><div id="statHot" class="stat-num">0</div><div class="stat-label">Hot</div></div>
+          <div class="stat"><div id="statToday" class="stat-num">0</div><div class="stat-label">Today</div></div>
+          <div class="stat"><div id="statFollow" class="stat-num">0</div><div class="stat-label">Follow-up</div></div>
+        </div>
+        <div class="toolbar">
+          <input id="searchBox" class="input search" placeholder="Search name, company, notes, product…">
+          <select id="priorityFilter" class="select"><option value="">All priorities</option><option>Hot</option><option>Warm</option><option>Follow-up</option><option>Info only</option></select>
+          <select id="personFilter" class="select"><option value="">All team</option></select>
+          <select id="locationFilter" class="select"><option value="">All locations</option><option>C.P. Bourg booth</option><option>Canon booth</option><option>Xerox booth</option><option>Other</option></select>
+          <button id="exportBtn" class="secondary export" type="button">Export CSV</button>
+        </div>
+        <div id="leadList" class="lead-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="leadDialog">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="dialogTitle">Lead</h2>
+        <button class="close-btn" type="button" onclick="this.closest('dialog').close()">×</button>
+      </div>
+      <div id="dialogBody"></div>
+    </div>
+  </dialog>
+
+  <div id="toastWrap" class="toast-wrap"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
