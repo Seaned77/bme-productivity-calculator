@@ -11,10 +11,10 @@
   const STORE_NAME = 'pending-leads';
 
   const TEAM = [
-    'Sean',
-    'Jim Tressler',
     'Charles Bourg',
+    'Jim Tressler',
     'Dan Attew',
+    'Sean Edmonds',
     'Chuck Cartier',
     'Luis Fernandez',
     'Tim Thompson',
@@ -60,7 +60,11 @@
   function setupChoices() {
     $('capturedBy').innerHTML = TEAM.map(n => '<option>' + esc(n) + '</option>').join('');
     $('personFilter').innerHTML = '<option value="">All team</option>' + TEAM.map(n => '<option>' + esc(n) + '</option>').join('');
-    const savedPerson = localStorage.getItem(PERSON_STORE);
+    let savedPerson = localStorage.getItem(PERSON_STORE);
+    if (savedPerson === 'Sean') {
+      savedPerson = 'Sean Edmonds';
+      localStorage.setItem(PERSON_STORE, savedPerson);
+    }
     if (savedPerson && TEAM.includes(savedPerson)) $('capturedBy').value = savedPerson;
 
     $('productChips').innerHTML = PRODUCTS.map((p, i) => {
@@ -232,7 +236,11 @@
 
   function resetForm() {
     $('leadForm').reset();
-    const savedPerson = localStorage.getItem(PERSON_STORE);
+    let savedPerson = localStorage.getItem(PERSON_STORE);
+    if (savedPerson === 'Sean') {
+      savedPerson = 'Sean Edmonds';
+      localStorage.setItem(PERSON_STORE, savedPerson);
+    }
     if (savedPerson && TEAM.includes(savedPerson)) $('capturedBy').value = savedPerson;
     $('captureLocation').value = 'C.P. Bourg booth';
     $('pWarm').checked = true;
