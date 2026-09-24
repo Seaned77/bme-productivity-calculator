@@ -118,3 +118,41 @@ dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
   .modal-grid{grid-template-columns:1fr}
   .modal-img{max-height:260px}
 }
+
+
+/* Readability pass — larger type and tap targets */
+body{font-size:18px}
+.brand-title{font-size:19px}
+.brand-sub{font-size:13px}
+.status-pill{font-size:14px;padding:9px 12px}
+.hero p{font-size:18px}
+.nav-btn{font-size:17px;padding:14px}
+.section-title{font-size:16px}
+.camera-title{font-size:23px}
+.camera-sub{font-size:16px}
+.field label{font-size:15px}
+.input,.select,.textarea{font-size:17px;padding:14px 15px}
+.priority label{font-size:15px;padding:12px 8px}
+.chip label{font-size:15px;padding:11px 14px}
+.primary{font-size:18px;padding:17px 18px}
+.secondary{font-size:16px;padding:13px 15px}
+.mini-btn{font-size:15px;padding:10px 12px}
+.form-help{font-size:15px}
+.stat-num{font-size:28px}
+.stat-label{font-size:13px}
+.lead-name{font-size:19px}
+.lead-company{font-size:16px}
+.tag{font-size:13px;padding:6px 9px}
+.lead-time{font-size:13px}
+.queue-banner{font-size:15px}
+.modal-head h2{font-size:23px}
+.toast{font-size:16px}
+.small{font-size:14px}
+.gate p{font-size:17px}
+@media(max-width:620px){
+  body{font-size:18px}
+  .brand-title{font-size:18px}
+  .hero h1{font-size:34px}
+  .nav-btn{font-size:16px}
+  .input,.select,.textarea{font-size:18px}
+}
