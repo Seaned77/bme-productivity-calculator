@@ -54,18 +54,23 @@
         <form id="leadForm" class="card form-card">
           <div class="section-title">1. Badge photo</div>
           <div class="camera-box">
-            <input id="badgeInput" type="file" accept="image/*" capture="environment" aria-label="Take customer badge photo">
+            <input id="badgeCameraInput" class="photo-input" type="file" accept="image/*" capture="environment" aria-label="Take customer badge photo">
+            <input id="badgeGalleryInput" class="photo-input" type="file" accept="image/*" aria-label="Choose customer badge photo from phone">
             <img id="badgePreview" class="hidden" alt="Customer badge preview">
             <div id="cameraPrompt" class="camera-prompt">
               <div>
                 <span class="camera-icon">📷</span>
-                <div class="camera-title">Take badge photo</div>
-                <div class="camera-sub">Tap here to open the camera</div>
+                <div class="camera-title">Add badge photo</div>
+                <div class="camera-sub">Take a new photo or choose one already on your phone</div>
               </div>
             </div>
             <div id="cameraActions" class="camera-actions hidden">
-              <button id="retakeBtn" class="mini-btn" type="button">Retake</button>
+              <button id="retakeBtn" class="mini-btn" type="button">Take New Photo</button>
             </div>
+          </div>
+          <div class="photo-source-actions">
+            <button id="takePhotoBtn" class="photo-source-btn" type="button">📷 Take Photo</button>
+            <button id="choosePhotoBtn" class="photo-source-btn" type="button">🖼️ Choose From Phone</button>
           </div>
 
           <div class="divider"></div>
