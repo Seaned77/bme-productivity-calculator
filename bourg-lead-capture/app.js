@@ -526,6 +526,10 @@
       $(id).addEventListener(id === 'searchBox' ? 'input' : 'change', renderLeads);
     });
     $('exportBtn').addEventListener('click', exportCsv);
+    $('backToCaptureBtn').addEventListener('click', () => {
+      switchView('capture');
+      scrollTo({top:0, behavior:'smooth'});
+    });
     $('syncStatus').addEventListener('click', async () => {
       await flushQueue(false);
       if (currentView === 'leads') await loadLeads();
