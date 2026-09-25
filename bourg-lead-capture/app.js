@@ -195,7 +195,8 @@
       $('badgePreview').classList.add('hidden');
       $('cameraPrompt').classList.remove('hidden');
       $('cameraActions').classList.add('hidden');
-      $('badgeInput').value = '';
+      $('badgeCameraInput').value = '';
+      $('badgeGalleryInput').value = '';
       return;
     }
     badgePreviewUrl = URL.createObjectURL(file);
@@ -252,7 +253,7 @@
   async function onSubmit(e) {
     e.preventDefault();
     if (!badgeFile) {
-      toast('Take a badge photo first.', 'bad');
+      toast('Take or choose a badge photo first.', 'bad');
       return;
     }
     if (badgeFile.size > 10 * 1024 * 1024) {
@@ -505,14 +506,20 @@
 
   function wireEvents() {
     document.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => switchView(b.dataset.view)));
-    $('badgeInput').addEventListener('change', () => {
-      const file = $('badgeInput').files?.[0];
+    $('badgeCameraInput').addEventListener('change', () => {
+      const file = $('badgeCameraInput').files?.[0];
       if (file) showBadge(file);
     });
+    $('badgeGalleryInput').addEventListener('change', () => {
+      const file = $('badgeGalleryInput').files?.[0];
+      if (file) showBadge(file);
+    });
+    $('takePhotoBtn').addEventListener('click', () => $('badgeCameraInput').click());
+    $('choosePhotoBtn').addEventListener('click', () => $('badgeGalleryInput').click());
     $('retakeBtn').addEventListener('click', e => {
       e.preventDefault();
       showBadge(null);
-      $('badgeInput').click();
+      $('badgeCameraInput').click();
     });
     $('leadForm').addEventListener('submit', onSubmit);
     ['searchBox','priorityFilter','personFilter','locationFilter'].forEach(id => {
