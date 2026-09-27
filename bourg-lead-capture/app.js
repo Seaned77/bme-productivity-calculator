@@ -514,13 +514,6 @@
       const file = $('badgeGalleryInput').files?.[0];
       if (file) showBadge(file);
     });
-    $('takePhotoBtn').addEventListener('click', () => $('badgeCameraInput').click());
-    $('choosePhotoBtn').addEventListener('click', () => $('badgeGalleryInput').click());
-    $('retakeBtn').addEventListener('click', e => {
-      e.preventDefault();
-      showBadge(null);
-      $('badgeCameraInput').click();
-    });
     $('leadForm').addEventListener('submit', onSubmit);
     ['searchBox','priorityFilter','personFilter','locationFilter'].forEach(id => {
       $(id).addEventListener(id === 'searchBox' ? 'input' : 'change', renderLeads);
