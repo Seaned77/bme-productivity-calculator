@@ -57,20 +57,20 @@
             <input id="badgeCameraInput" class="photo-input" type="file" accept="image/*" capture="environment" aria-label="Take customer badge photo">
             <input id="badgeGalleryInput" class="photo-input" type="file" accept="image/*" aria-label="Choose customer badge photo from phone">
             <img id="badgePreview" class="hidden" alt="Customer badge preview">
-            <div id="cameraPrompt" class="camera-prompt">
+            <label id="cameraPrompt" class="camera-prompt" for="badgeCameraInput">
               <div>
                 <span class="camera-icon">📷</span>
-                <div class="camera-title">Add badge photo</div>
-                <div class="camera-sub">Take a new photo or choose one already on your phone</div>
+                <div class="camera-title">Take Badge Photo</div>
+                <div class="camera-sub">Tap here to open the camera</div>
               </div>
-            </div>
+            </label>
             <div id="cameraActions" class="camera-actions hidden">
               <label class="mini-btn" for="badgeCameraInput">Take New Photo</label>
             </div>
           </div>
           <div class="photo-source-actions">
-            <label class="photo-source-btn" for="badgeCameraInput">📷 Take Photo</label>
-            <label class="photo-source-btn" for="badgeGalleryInput">🖼️ Choose From Phone</label>
+            <label class="photo-source-btn primary-photo" for="badgeCameraInput">📷 Take Photo</label>
+            <label class="photo-source-btn secondary-photo" for="badgeGalleryInput">🖼️ Choose From Phone</label>
           </div>
 
           <div class="divider"></div>
