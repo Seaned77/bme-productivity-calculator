@@ -170,7 +170,7 @@ body{font-size:18px}
 .photo-source-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .photo-source-btn{border:1px solid var(--line);background:#0e1216;color:#fff;border-radius:14px;padding:14px 12px;font-size:17px;font-weight:900;min-height:52px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}
 .photo-source-btn:active{transform:translateY(1px)}
-.camera-prompt{pointer-events:none}
+
 @media(max-width:620px){
   .photo-source-actions{grid-template-columns:1fr}
   .photo-source-btn{font-size:18px;min-height:56px}
@@ -183,3 +183,7 @@ body{font-size:18px}
   .repository-actions{top:66px}
   .back-capture-btn{font-size:18px;min-height:56px}
 }
+
+.camera-prompt{cursor:pointer}
+.primary-photo{background:linear-gradient(180deg,var(--orange2),var(--orange));color:#121212;border-color:transparent}
+.secondary-photo{background:#0e1216;color:#fff}
