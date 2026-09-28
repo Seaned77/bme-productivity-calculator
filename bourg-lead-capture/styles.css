@@ -76,7 +76,7 @@ a{color:inherit}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:12px}
 .stat-num{font-size:24px;font-weight:950}
 .stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.toolbar{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(120px,.6fr)) auto;gap:8px;margin-bottom:12px}
+.toolbar{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(120px,.6fr));gap:8px;margin-bottom:12px}
 .toolbar .input,.toolbar .select,.toolbar .secondary{min-height:44px}
 .lead-list{display:grid;gap:10px}
 .lead-card{display:grid;grid-template-columns:92px 1fr auto;gap:12px;align-items:center;padding:10px;border:1px solid var(--line);background:var(--panel);border-radius:16px}

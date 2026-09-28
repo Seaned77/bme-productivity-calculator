@@ -466,28 +466,86 @@
     return '"' + String(s).replace(/"/g,'""') + '"';
   }
 
+  function leadsCsv(rows) {
+    const cols = [
+      ['Lead ID','id'],
+      ['Captured At','created_at'],['Name','customer_name'],['Company','company'],['Title','job_title'],['Email','email'],['Phone','phone'],
+      ['Priority','priority'],['Products','product_interests'],['Captured By','captured_by'],['Location','capture_location'],['Notes','notes'],
+      ['Follow-up Date','follow_up_date'],['Follow-up Action','follow_up_action'],['Status','status']
+    ];
+    return [cols.map(c => csvCell(c[0])).join(',')]
+      .concat(rows.map(r => cols.map(c => csvCell(r[c[1]])).join(','))).join('\r\n');
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  }
+
   function exportCsv() {
     const rows = filteredLeads();
     if (!rows.length) {
       toast('There are no leads to export.', 'bad');
       return;
     }
-    const cols = [
-      ['Captured At','created_at'],['Name','customer_name'],['Company','company'],['Title','job_title'],['Email','email'],['Phone','phone'],
-      ['Priority','priority'],['Products','product_interests'],['Captured By','captured_by'],['Location','capture_location'],['Notes','notes'],
-      ['Follow-up Date','follow_up_date'],['Follow-up Action','follow_up_action'],['Status','status']
-    ];
-    const csv = [cols.map(c => csvCell(c[0])).join(',')]
-      .concat(rows.map(r => cols.map(c => csvCell(r[c[1]])).join(','))).join('\r\n');
-    const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'bourg-leads-printing-united-2026.csv';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    downloadBlob(new Blob([leadsCsv(rows)], {type:'text/csv;charset=utf-8'}), 'bourg-leads-printing-united-2026.csv');
+  }
+
+  function photoExtension(blob, path) {
+    const types = {'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/heic':'heic','image/heif':'heif','image/gif':'gif','image/avif':'avif','image/tiff':'tif','image/bmp':'bmp','image/svg+xml':'svg'};
+    const type = (blob.type || '').split(';')[0].toLowerCase();
+    if (types[type]) return types[type];
+    const ext = (path || '').split('.').pop().toLowerCase();
+    if (/^(jpe?g|png|webp|heic|heif|gif|avif|tiff?|bmp|svg)$/.test(ext)) return ext;
+    throw new Error('A badge photo has an unknown file type. Export CSV or contact support.');
+  }
+
+  async function exportZip() {
+    const btn = $('exportZipBtn');
+    if (btn.disabled) return;
+    // Snapshot the current filters before any asynchronous downloads.
+    const rows = filteredLeads().map(row => ({...row}));
+    const status = $('exportStatus');
+    if (!rows.length) {
+      status.textContent = 'There are no leads to export.';
+      return;
+    }
+    btn.disabled = true;
+    status.textContent = 'Preparing ZIP…';
+    try {
+      if (!navigator.onLine) throw new Error('Connect to the internet to download badge photos.');
+      if (!window.JSZip) throw new Error('The ZIP exporter did not load. Reopen the app and try again.');
+      const zip = new window.JSZip();
+      const photos = zip.folder('photos');
+      let totalBytes = 0;
+      for (const [index, lead] of rows.entries()) {
+        status.textContent = 'Downloading photo ' + (index + 1) + ' of ' + rows.length + '…';
+        if (!/^[a-zA-Z0-9_-]+$/.test(lead.id) || !lead.badge_image_path) {
+          throw new Error('A lead is missing its ID or badge photo. Export CSV or correct the lead before retrying.');
+        }
+        // Use the existing private client and its team header; never publish photo URLs.
+        const { data, error } = await client.storage.from(BUCKET).download(lead.badge_image_path);
+        if (error || !data?.size) throw new Error('Could not download photo ' + (index + 1) + ' of ' + rows.length + '. Check your connection and private team access, then retry.');
+        totalBytes += data.size;
+        if (totalBytes > 150 * 1024 * 1024) throw new Error('These photos exceed 150 MB. Narrow the filters and export smaller groups.');
+        photos.file(lead.id + '.' + photoExtension(data, lead.badge_image_path), await data.arrayBuffer());
+      }
+      zip.file('bourg-leads-printing-united-2026.csv', leadsCsv(rows));
+      status.textContent = 'Creating ZIP…';
+      const blob = await zip.generateAsync({type:'blob', compression:'STORE'});
+      downloadBlob(blob, 'bourg-leads-printing-united-2026.zip');
+      status.textContent = 'ZIP ready: ' + rows.length + ' leads and ' + rows.length + ' photos. Each photo filename matches its Lead ID in the CSV.';
+    } catch (err) {
+      status.textContent = 'No ZIP downloaded. ' + (err.message || 'Export failed. Try again.');
+    } finally {
+      btn.disabled = false;
+    }
   }
 
   async function testAccess() {
@@ -519,6 +577,7 @@
       $(id).addEventListener(id === 'searchBox' ? 'input' : 'change', renderLeads);
     });
     $('exportBtn').addEventListener('click', exportCsv);
+    $('exportZipBtn').addEventListener('click', exportZip);
     $('backToCaptureBtn').addEventListener('click', () => {
       switchView('capture');
       scrollTo({top:0, behavior:'smooth'});

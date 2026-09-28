@@ -148,7 +148,9 @@
           <select id="personFilter" class="select"><option value="">All team</option></select>
           <select id="locationFilter" class="select"><option value="">All locations</option><option>C.P. Bourg booth</option><option>Canon booth</option><option>Xerox booth</option><option>Other</option></select>
           <button id="exportBtn" class="secondary export" type="button">Export CSV</button>
+          <button id="exportZipBtn" class="secondary export" type="button">Export CSV + Photos (ZIP)</button>
         </div>
+        <p id="exportStatus" class="small" role="status" aria-live="polite">Exports include the currently filtered leads. ZIP photos are named by Lead ID. For large exports, narrow the filters.</p>
         <div id="leadList" class="lead-list"></div>
       </section>
     </main>
@@ -167,6 +169,7 @@
   <div id="toastWrap" class="toast-wrap"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="vendor/jszip-3.10.1.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
