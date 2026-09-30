@@ -2,12 +2,12 @@
   "redirects": [
     {
       "source": "/hid27",
-      "destination": "/hid27/bright.html",
+      "destination": "/hid27/v3.html",
       "permanent": false
     },
     {
       "source": "/hid27/",
-      "destination": "/hid27/bright.html",
+      "destination": "/hid27/v3.html",
       "permanent": false
     }
   ]
