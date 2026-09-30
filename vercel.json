@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/hid27",
+      "destination": "/hid27/bright.html",
+      "permanent": false
+    },
+    {
+      "source": "/hid27/",
+      "destination": "/hid27/bright.html",
+      "permanent": false
+    }
+  ]
+}
