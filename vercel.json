@@ -1,14 +1,12 @@
 {
-  "redirects": [
+  "rewrites": [
     {
       "source": "/hid27",
-      "destination": "/hid27/v3.html",
-      "permanent": false
+      "destination": "/hid27/v3.html"
     },
     {
       "source": "/hid27/",
-      "destination": "/hid27/v3.html",
-      "permanent": false
+      "destination": "/hid27/v3.html"
     }
   ]
 }
