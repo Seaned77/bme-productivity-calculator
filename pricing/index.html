@@ -23,7 +23,7 @@ footer{max-width:1120px;margin:auto;padding:0 14px 28px;color:#7a8796;font-size:
 </style>
 </head>
 <body>
-<header><div class="brand"><div class="logo">B</div><div><h1>C.P. Bourg Pricing Configurator</h1><p>Fast retail configuration • Version 1.1</p></div></div></header>
+<header><div class="brand"><div class="logo">B</div><div><h1>C.P. Bourg Pricing Configurator</h1><p>Fast retail configuration • 2026 Partner Price List</p></div></div></header>
 <main>
 <section class="card config"><div class="pad">
   <div class="title"><div><div class="eyebrow">Configure</div><h2>Build the finishing system</h2></div><button class="btn ghost" id="resetBtn">Reset</button></div>
@@ -62,29 +62,29 @@ footer{max-width:1120px;margin:auto;padding:0 14px 28px;color:#7a8796;font-size:
   <div class="quote" id="quoteText"></div>
 </div></aside>
 </main>
-<footer>Seed pricing verified from C.P. Bourg quotation dated September 11, 2026. USD. Prices should be validated against the active partner price list before a binding customer quote.</footer>
+<footer>Retail pricing and listed system installation charges from C.P. Bourg Official Partner Price List, April 1, 2026. USD. Confirm stock, additional services, and final quote terms before a binding customer offer.</footer>
 
 <script>
 const MAKERS={
-bbm2:{name:"BBM 40/60+ — 2 Hohner Heads",part:"CPB1030575",price:77131.43,install:5300,current:true},
-bbm4:{name:"BBM 40/60+ — 4 Hohner Heads",part:"CPB1030576",price:95105.49,install:5300,current:false,note:"4-head price is 2025 official retail reference; verify current 2026 price."},
-bme2:{name:"BM-e — 2 Hohner Heads",part:"9584892-AF",price:68574.07,install:5300,current:false,note:"BM-e is legacy/remaining inventory; price shown is 2025 official retail reference."},
-bme4:{name:"BM-e — 4 Hohner Heads",part:"9584894-AF",price:77518.52,install:5300,current:false,note:"BM-e is legacy/remaining inventory; price shown is 2025 official retail reference."}
+bbm2:{name:"BBM 40/60+ — 2 Hohner Heads",part:"CPB1030575",price:77131.43,install:3650,current:true},
+bbm4:{name:"BBM 40/60+ — 4 Hohner Heads",part:"CPB1030576",price:97896.30,install:3650,current:true},
+bme2:{name:"BM-e — 2 Hohner Heads",part:"9584892-AF",price:70362.96,install:3650,current:true,note:"BM-e is a legacy model; confirm equipment availability."},
+bme4:{name:"BM-e — 4 Hohner Heads",part:"9584894-AF",price:79540.74,install:3650,current:true,note:"BM-e is a legacy model; confirm equipment availability."}
 };
 const DATA=[
 {id:"bsf",name:'Bourg Sheet Feeder BSF (26")',part:"9583634-AF",price:48658.91,kind:"hardware",install:650,desc:"Available for inline or offline feeding"},
 {id:"ifb",name:"BSF Interface Feeder / Manual Feed & Reject Tray",part:"9592434-AF",price:4693.62,kind:"hardware",install:0,desc:"Quoted with BSF; include when required"},
-{id:"bpm",name:"Bourg Preparation Module BPM",part:"CPB0001107",price:37103.74,kind:"hardware",install:0,desc:"Optional preparation module"},
+{id:"bpm",name:"Bourg Preparation Module BPM",part:"CPB0001107",price:37103.74,kind:"hardware",install:1650,desc:"Optional preparation module"},
 {id:"bleed",name:"BPM Bleed / Trim",part:"CPB0001110",price:11873.20,kind:"hardware",install:650,desc:"BPM option"},
 {id:"slot",name:"BPM 1 Extra Slot",part:"CPB0001113",price:8843.06,kind:"hardware",install:0,desc:"Extra BPM slot extension"},
 {id:"crease",name:"BPM Crease",part:"CPB0001108",price:14841.50,kind:"hardware",install:650,desc:"BPM option"},
 {id:"dock",name:"Docking Plate for BM-e / BBM",part:"9592457",price:673.43,kind:"hardware",install:0,desc:"Inline docking plate"},
-{id:"unlimited",name:"BBM 40 to 60+ Upgrade — Unlimited",part:"CPB0001373",price:14285.71,kind:"license",install:0,desc:"License; no tariff",bbmOnly:true},
+{id:"unlimited",name:"BBM 40 to 60+ Upgrade — Unlimited",part:"CPB0001373",price:14285.71,kind:"license",install:0,desc:"Select only when production requires over 40 sheets (40–60+); no tariff",bbmOnly:true},
 {id:"bse",name:"Square Edge (BSE) 40/60+",part:"CPB1027626",price:26849.11,kind:"hardware",install:650,desc:"BBM square-back finishing",bbmOnly:true},
 {id:"trim",name:"BBM Trimming Unit",part:"CPB1027815",price:32189.47,kind:"hardware",install:650,desc:"BBM face trim",bbmOnly:true},
 {id:"box",name:"Bourg Box Communication Interface",part:"9433340-AF",price:5936.60,kind:"hardware",install:0,desc:"JDF Web-to-Finish interface"}
 ];
-const PRESETS={bbmBasic:[],bbmFinish:["bse","trim"],inlineFull:["bpm","bleed","slot","crease","dock","unlimited","bse","trim","box"],offlineBSF:["bsf","ifb","bpm","bleed","slot","crease","unlimited","bse","trim"]};
+const PRESETS={bbmBasic:[],bbmFinish:["bse","trim"],inlineFull:["bpm","bleed","slot","crease","dock","bse","trim","box"],offlineBSF:["bsf","ifb","bpm","bleed","slot","crease","bse","trim"]};
 const $=id=>document.getElementById(id), money=n=>n.toLocaleString("en-US",{style:"currency",currency:"USD"});
 function renderItems(){
  $("items").innerHTML=DATA.map(x=>`<label class="item" data-row="${x.id}"><input type="checkbox" data-id="${x.id}"><span><strong>${x.name}</strong><small>${x.part} • ${x.desc}${x.install?" • +"+money(x.install)+" install":""}</small></span><span class="price">${money(x.price)}</span></label>`).join("");
@@ -119,7 +119,7 @@ function calc(){
  $("hardware").textContent=money(hardware);$("licenses").textContent=money(licenses);$("tariff").textContent=money(tariff);$("install").textContent=money(install);$("grandTotal").textContent=money(total);$("total2").textContent=money(total);
  const cust=$("customer").value.trim();$("customerLabel").textContent=cust||"Current configuration";
  const path=[]; if($("mode").value==="inline")path.push("Printer / Output Stacker"); if(ids.includes("bsf"))path.push("BSF"); if(ids.includes("bpm"))path.push("BPM"); path.push($("maker").value.startsWith("bbm")?"BBM":"BM-e"); if(ids.includes("bse"))path.push("BSE"); if(ids.includes("trim"))path.push("Trimmer"); $("flowline").textContent=path.join("  →  ");
- $("priceWarning").hidden=maker.current;$("priceWarning").textContent=maker.note||"";
+ $("priceWarning").hidden=!maker.note;$("priceWarning").textContent=maker.note||"";
  const lines=[`• ${maker.name} — ${money(maker.price)}`,...chosen.map(x=>`• ${x.name} — ${money(x.price)}`)];
  $("quoteText").textContent=`${cust?cust+"\n":""}C.P. Bourg Finishing Configuration\nMode: ${$("mode").value==="inline"?"Inline":"Offline"}\nFlow: ${path.join(" → ")}\n\n${lines.join("\n")}\n\nHardware: ${money(hardware)}\nLicense / non-tariff: ${money(licenses)}\nTariff (10% physical hardware): ${money(tariff)}\nInstallation & training: ${money(install)}\nTOTAL: ${money(total)}${maker.current?"":"\n\nNOTE: "+maker.note}`;
 }
