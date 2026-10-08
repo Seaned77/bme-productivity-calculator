@@ -12,26 +12,32 @@ header{background:linear-gradient(135deg,#08172d,#12365d);color:#fff;padding:24p
 .brand{max-width:1120px;margin:auto;display:flex;gap:14px;align-items:center}.logo{width:44px;height:44px;border-radius:10px;background:var(--orange);display:grid;place-items:center;font-weight:900;color:#111}.brand h1{font-size:22px;margin:0}.brand p{margin:3px 0 0;color:#cfe0f4;font-size:13px}
 main{max-width:1120px;margin:22px auto;padding:0 14px 44px;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.9fr);gap:18px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 26px rgba(15,35,60,.06);overflow:hidden}.pad{padding:18px}.title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.title h2{margin:0;font-size:19px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.11em;color:var(--orange);text-transform:uppercase;margin-bottom:5px}
-.field{display:grid;gap:6px;margin-top:14px}.field label{font-size:12px;font-weight:700;color:#405066}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}
-.items{margin-top:16px;border-top:1px solid var(--line)}.item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:13px 2px;border-bottom:1px solid #edf1f5}.item input{width:21px;height:21px;accent-color:var(--orange)}.item strong{display:block;font-size:14px}.item small{display:block;color:var(--muted);margin-top:2px}.price{font-variant-numeric:tabular-nums;font-weight:800;font-size:14px;text-align:right}.tag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;font-size:10px;background:#eef4fb;color:#38516e}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:6px;margin-top:14px}.field label{font-size:12px;font-weight:700;color:#405066}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}
+.flow{margin-top:14px;background:#eef4fb;border:1px solid #d8e5f3;border-radius:13px;padding:11px 12px}.flow b{font-size:12px;color:#314965}.flowline{margin-top:7px;font-weight:850;font-size:13px;line-height:1.6}.warning{margin-top:10px;padding:10px 12px;background:#fff9e8;border:1px solid #f3d58a;border-radius:12px;color:#7b5610;font-size:12px;line-height:1.4}.items{margin-top:16px;border-top:1px solid var(--line)}.item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:13px 2px;border-bottom:1px solid #edf1f5}.item input{width:21px;height:21px;accent-color:var(--orange)}.item strong{display:block;font-size:14px}.item small{display:block;color:var(--muted);margin-top:2px}.price{font-variant-numeric:tabular-nums;font-weight:800;font-size:14px;text-align:right}.tag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;font-size:10px;background:#eef4fb;color:#38516e}
 .preset{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:11px;padding:10px 13px;font-weight:800;cursor:pointer}.btn.primary{background:var(--orange);color:#161616}.btn.secondary{background:#eaf0f7;color:var(--navy)}.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--navy)}
 .summary{position:sticky;top:12px}.big{font-size:34px;font-weight:900;letter-spacing:-.03em;margin-top:5px}.sub{color:var(--muted);font-size:12px}.rows{margin-top:18px}.row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #edf1f5;font-size:14px}.row strong{font-variant-numeric:tabular-nums}.row.total{font-size:18px;border:0;padding-top:15px}.good{color:var(--green);font-weight:800}.note{margin-top:14px;padding:11px 12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;font-size:12px;line-height:1.45;color:#7c4310}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.quote{margin-top:16px;background:#f8fafc;border:1px dashed #bdc9d6;border-radius:12px;padding:12px;font-size:12px;line-height:1.5;white-space:pre-wrap}
 footer{max-width:1120px;margin:auto;padding:0 14px 28px;color:#7a8796;font-size:11px}
-@media(max-width:780px){main{grid-template-columns:1fr}.summary{position:static}.brand{align-items:flex-start}.big{font-size:30px}.actions{grid-template-columns:1fr}}
+@media(max-width:780px){main{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.summary{position:static}.brand{align-items:flex-start}.big{font-size:30px}.actions{grid-template-columns:1fr}}
 @media print{header,.config,.actions,.note,footer{display:none!important}main{display:block;margin:0;padding:0}.card{box-shadow:none;border:0}.summary{position:static}.quote{border:0;background:#fff;padding:0}}
 </style>
 </head>
 <body>
-<header><div class="brand"><div class="logo">B</div><div><h1>C.P. Bourg Pricing Configurator</h1><p>Fast retail configuration • Version 1</p></div></div></header>
+<header><div class="brand"><div class="logo">B</div><div><h1>C.P. Bourg Pricing Configurator</h1><p>Fast retail configuration • Version 1.1</p></div></div></header>
 <main>
 <section class="card config"><div class="pad">
-  <div class="title"><div><div class="eyebrow">Configure</div><h2>Build a BBM system</h2></div><button class="btn ghost" id="resetBtn">Reset</button></div>
+  <div class="title"><div><div class="eyebrow">Configure</div><h2>Build the finishing system</h2></div><button class="btn ghost" id="resetBtn">Reset</button></div>
   <div class="field"><label>Customer / opportunity</label><input id="customer" placeholder="Example: Canon USA — Acme Print"></div>
+  <div class="grid2">
+    <div class="field"><label>Operating mode</label><select id="mode"><option value="inline">Inline with printer</option><option value="offline">Offline</option></select></div>
+    <div class="field"><label>Booklet maker</label><select id="maker"><option value="bbm2">BBM — 2 Hohner heads</option><option value="bbm4">BBM — 4 Hohner heads</option><option value="bme2">BM-e — 2 Hohner heads (legacy)</option><option value="bme4">BM-e — 4 Hohner heads (legacy)</option></select></div>
+  </div>
+  <div class="flow"><b>System flow</b><div class="flowline" id="flowline"></div></div>
   <div class="field"><label>Configuration preset</label>
     <select id="preset">
       <option value="custom">Custom</option>
       <option value="inlineFull">Full inline BBM — BPM + BSE + Trimmer</option>
+      <option value="offlineBSF">Offline BBM — BSF + BPM + BSE + Trimmer</option>
       <option value="bbmFinish">BBM + BSE + Trimmer</option>
       <option value="bbmBasic">BBM base system</option>
     </select>
@@ -51,7 +57,7 @@ footer{max-width:1120px;margin:auto;padding:0 14px 28px;color:#7a8796;font-size:
     <div class="row"><span>Installation & training</span><strong id="install">$0.00</strong></div>
     <div class="row total"><span>Total</span><strong id="total2">$0.00</strong></div>
   </div>
-  <div class="note"><b>Pricing logic:</b> tariff applies only to physical hardware. Installation and the Unlimited 40–60 license are excluded from tariff. BBM base installation is $5,300; selected minor option installs are $650 each.</div>
+  <div class="note"><b>Configuration logic:</b> BSF can be selected in either inline or offline mode. Inline flow is printer/output stacker → optional BSF → optional BPM → booklet maker. Offline flow starts with BSF when selected. Tariff still applies only to physical hardware; installation and Unlimited license are excluded.</div><div class="warning" id="priceWarning" hidden></div>
   <div class="actions"><button class="btn primary" id="copyBtn">Copy summary</button><button class="btn secondary" onclick="window.print()">Print / PDF</button></div>
   <div class="quote" id="quoteText"></div>
 </div></aside>
@@ -59,50 +65,69 @@ footer{max-width:1120px;margin:auto;padding:0 14px 28px;color:#7a8796;font-size:
 <footer>Seed pricing verified from C.P. Bourg quotation dated September 11, 2026. USD. Prices should be validated against the active partner price list before a binding customer quote.</footer>
 
 <script>
+const MAKERS={
+bbm2:{name:"BBM 40/60+ — 2 Hohner Heads",part:"CPB1030575",price:77131.43,install:5300,current:true},
+bbm4:{name:"BBM 40/60+ — 4 Hohner Heads",part:"CPB1030576",price:95105.49,install:5300,current:false,note:"4-head price is 2025 official retail reference; verify current 2026 price."},
+bme2:{name:"BM-e — 2 Hohner Heads",part:"9584892-AF",price:68574.07,install:5300,current:false,note:"BM-e is legacy/remaining inventory; price shown is 2025 official retail reference."},
+bme4:{name:"BM-e — 4 Hohner Heads",part:"9584894-AF",price:77518.52,install:5300,current:false,note:"BM-e is legacy/remaining inventory; price shown is 2025 official retail reference."}
+};
 const DATA=[
-{id:"bpm",name:"Bourg Preparation Module BPM",part:"CPB0001107",price:37103.74,kind:"hardware",install:0,desc:"BPM main module"},
-{id:"bleed",name:"BPM Bleed / Trim",part:"CPB0001110",price:11873.20,kind:"hardware",install:650,desc:"Bleed / trim option"},
+{id:"bsf",name:'Bourg Sheet Feeder BSF (26")',part:"9583634-AF",price:48658.91,kind:"hardware",install:650,desc:"Available for inline or offline feeding"},
+{id:"ifb",name:"BSF Interface Feeder / Manual Feed & Reject Tray",part:"9592434-AF",price:4693.62,kind:"hardware",install:0,desc:"Quoted with BSF; include when required"},
+{id:"bpm",name:"Bourg Preparation Module BPM",part:"CPB0001107",price:37103.74,kind:"hardware",install:0,desc:"Optional preparation module"},
+{id:"bleed",name:"BPM Bleed / Trim",part:"CPB0001110",price:11873.20,kind:"hardware",install:650,desc:"BPM option"},
 {id:"slot",name:"BPM 1 Extra Slot",part:"CPB0001113",price:8843.06,kind:"hardware",install:0,desc:"Extra BPM slot extension"},
-{id:"crease",name:"BPM Crease",part:"CPB0001108",price:14841.50,kind:"hardware",install:650,desc:"Creasing option"},
-{id:"bbm",name:"BBM 40/60+ — 2 Hohner Heads",part:"CPB1030575",price:77131.43,kind:"hardware",install:5300,required:true,desc:"Bourg Booklet Maker base unit"},
-{id:"dock",name:"Docking Plate for In-line BM-e 2 Dir",part:"9592457",price:673.43,kind:"hardware",install:0,desc:"Inline docking plate"},
-{id:"unlimited",name:"BBM 40 to 60+ Upgrade — Unlimited",part:"CPB0001373",price:14285.71,kind:"license",install:0,desc:"License; no tariff"},
-{id:"bse",name:"Square Edge (BSE) 40/60+",part:"CPB1027626",price:26849.11,kind:"hardware",install:650,desc:"Square-back finishing"},
-{id:"trim",name:"BBM Trimming Unit",part:"CPB1027815",price:32189.47,kind:"hardware",install:650,desc:"Face trim"},
+{id:"crease",name:"BPM Crease",part:"CPB0001108",price:14841.50,kind:"hardware",install:650,desc:"BPM option"},
+{id:"dock",name:"Docking Plate for BM-e / BBM",part:"9592457",price:673.43,kind:"hardware",install:0,desc:"Inline docking plate"},
+{id:"unlimited",name:"BBM 40 to 60+ Upgrade — Unlimited",part:"CPB0001373",price:14285.71,kind:"license",install:0,desc:"License; no tariff",bbmOnly:true},
+{id:"bse",name:"Square Edge (BSE) 40/60+",part:"CPB1027626",price:26849.11,kind:"hardware",install:650,desc:"BBM square-back finishing",bbmOnly:true},
+{id:"trim",name:"BBM Trimming Unit",part:"CPB1027815",price:32189.47,kind:"hardware",install:650,desc:"BBM face trim",bbmOnly:true},
 {id:"box",name:"Bourg Box Communication Interface",part:"9433340-AF",price:5936.60,kind:"hardware",install:0,desc:"JDF Web-to-Finish interface"}
 ];
-const PRESETS={
-bbmBasic:["bbm"],
-bbmFinish:["bbm","bse","trim"],
-inlineFull:["bpm","bleed","slot","crease","bbm","dock","unlimited","bse","trim","box"]
-};
+const PRESETS={bbmBasic:[],bbmFinish:["bse","trim"],inlineFull:["bpm","bleed","slot","crease","dock","unlimited","bse","trim","box"],offlineBSF:["bsf","ifb","bpm","bleed","slot","crease","unlimited","bse","trim"]};
 const $=id=>document.getElementById(id), money=n=>n.toLocaleString("en-US",{style:"currency",currency:"USD"});
 function renderItems(){
- $("items").innerHTML=DATA.map(x=>`<label class="item"><input type="checkbox" data-id="${x.id}" ${x.required?"checked disabled":""}><span><strong>${x.name}</strong><small>${x.part} • ${x.desc}${x.install?" • +"+money(x.install)+" install":""}</small></span><span class="price">${money(x.price)}</span></label>`).join("");
- document.querySelectorAll('[data-id]').forEach(el=>el.addEventListener("change",calc));
+ $("items").innerHTML=DATA.map(x=>`<label class="item" data-row="${x.id}"><input type="checkbox" data-id="${x.id}"><span><strong>${x.name}</strong><small>${x.part} • ${x.desc}${x.install?" • +"+money(x.install)+" install":""}</small></span><span class="price">${money(x.price)}</span></label>`).join("");
+ document.querySelectorAll('[data-id]').forEach(el=>el.addEventListener("change",()=>{syncDependencies(el.dataset.id);calc()}));
 }
 function selectedIds(){return [...document.querySelectorAll('[data-id]')].filter(x=>x.checked).map(x=>x.dataset.id)}
+function setChecked(id,val){const e=document.querySelector('[data-id="'+id+'"]');if(e)e.checked=val}
+function syncDependencies(changed){
+ const ids=selectedIds();
+ if(["bleed","slot","crease"].includes(changed)&&ids.includes(changed)) setChecked("bpm",true);
+ if(changed==="bpm"&&!document.querySelector('[data-id="bpm"]').checked)["bleed","slot","crease"].forEach(x=>setChecked(x,false));
+ if(changed==="bsf"&&!document.querySelector('[data-id="bsf"]').checked)setChecked("ifb",false);
+ if(changed==="ifb"&&document.querySelector('[data-id="ifb"]').checked)setChecked("bsf",true);
+}
 function setPreset(v){
- const ids=PRESETS[v]||["bbm"];
- document.querySelectorAll('[data-id]').forEach(x=>x.checked=ids.includes(x.dataset.id)||x.dataset.id==="bbm");
+ const ids=PRESETS[v]||[];
+ document.querySelectorAll('[data-id]').forEach(x=>x.checked=ids.includes(x.dataset.id));
+ if(v==="offlineBSF") $("mode").value="offline";
+ if(v==="inlineFull") $("mode").value="inline";
  calc();
 }
+function updateRows(){
+ const isBbm=$("maker").value.startsWith("bbm");
+ ["unlimited","bse","trim"].forEach(id=>{const row=document.querySelector('[data-row="'+id+'"]');row.style.display=isBbm?"grid":"none";if(!isBbm)setChecked(id,false)});
+}
 function calc(){
- const ids=selectedIds(), chosen=DATA.filter(x=>ids.includes(x.id));
- const hardware=chosen.filter(x=>x.kind==="hardware").reduce((a,b)=>a+b.price,0);
+ updateRows();
+ const maker=MAKERS[$("maker").value], ids=selectedIds(), chosen=DATA.filter(x=>ids.includes(x.id));
+ const hardware=maker.price+chosen.filter(x=>x.kind==="hardware").reduce((a,b)=>a+b.price,0);
  const licenses=chosen.filter(x=>x.kind==="license").reduce((a,b)=>a+b.price,0);
- const tariff=hardware*.10;
- const install=chosen.reduce((a,b)=>a+b.install,0);
- const total=hardware+licenses+tariff+install;
- $("hardware").textContent=money(hardware);$("licenses").textContent=money(licenses);$("tariff").textContent=money(tariff);$("install").textContent=money(install);
- $("grandTotal").textContent=money(total);$("total2").textContent=money(total);
+ const tariff=hardware*.10, install=maker.install+chosen.reduce((a,b)=>a+b.install,0), total=hardware+licenses+tariff+install;
+ $("hardware").textContent=money(hardware);$("licenses").textContent=money(licenses);$("tariff").textContent=money(tariff);$("install").textContent=money(install);$("grandTotal").textContent=money(total);$("total2").textContent=money(total);
  const cust=$("customer").value.trim();$("customerLabel").textContent=cust||"Current configuration";
- const lines=chosen.map(x=>`• ${x.name} — ${money(x.price)}`);
- $("quoteText").textContent=`${cust?cust+"\n":""}C.P. Bourg BBM Configuration\n\n${lines.join("\n")}\n\nHardware: ${money(hardware)}\nLicense / non-tariff: ${money(licenses)}\nTariff (10% hardware): ${money(tariff)}\nInstallation & training: ${money(install)}\nTOTAL: ${money(total)}`;
+ const path=[]; if($("mode").value==="inline")path.push("Printer / Output Stacker"); if(ids.includes("bsf"))path.push("BSF"); if(ids.includes("bpm"))path.push("BPM"); path.push($("maker").value.startsWith("bbm")?"BBM":"BM-e"); if(ids.includes("bse"))path.push("BSE"); if(ids.includes("trim"))path.push("Trimmer"); $("flowline").textContent=path.join("  →  ");
+ $("priceWarning").hidden=maker.current;$("priceWarning").textContent=maker.note||"";
+ const lines=[`• ${maker.name} — ${money(maker.price)}`,...chosen.map(x=>`• ${x.name} — ${money(x.price)}`)];
+ $("quoteText").textContent=`${cust?cust+"\n":""}C.P. Bourg Finishing Configuration\nMode: ${$("mode").value==="inline"?"Inline":"Offline"}\nFlow: ${path.join(" → ")}\n\n${lines.join("\n")}\n\nHardware: ${money(hardware)}\nLicense / non-tariff: ${money(licenses)}\nTariff (10% physical hardware): ${money(tariff)}\nInstallation & training: ${money(install)}\nTOTAL: ${money(total)}${maker.current?"":"\n\nNOTE: "+maker.note}`;
 }
 $("preset").addEventListener("change",e=>setPreset(e.target.value));
 $("customer").addEventListener("input",calc);
-$("resetBtn").addEventListener("click",()=>{$("preset").value="custom";$("customer").value="";setPreset("bbmBasic")});
+$("mode").addEventListener("change",calc);
+$("maker").addEventListener("change",calc);
+$("resetBtn").addEventListener("click",()=>{$("preset").value="custom";$("customer").value="";$("mode").value="inline";$("maker").value="bbm2";document.querySelectorAll('[data-id]').forEach(x=>x.checked=false);calc()});
 $("copyBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("quoteText").textContent);$("copyBtn").textContent="Copied!";setTimeout(()=>$("copyBtn").textContent="Copy summary",1200)}catch(e){alert("Copy failed. Select the summary text manually.")}});
 renderItems();setPreset("inlineFull");
 </script>
