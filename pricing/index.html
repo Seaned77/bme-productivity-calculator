@@ -20,14 +20,16 @@ main{max-width:1120px;margin:22px auto;padding:0 14px 44px;display:grid;grid-tem
 footer{max-width:1120px;margin:auto;padding:0 14px 28px;color:#7a8796;font-size:11px}
 @media(max-width:780px){main{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.summary{position:static}.brand{align-items:flex-start}.big{font-size:30px}.actions{grid-template-columns:1fr}}
 @media print{header,.config,.actions,.note,footer{display:none!important}main{display:block;margin:0;padding:0}.card{box-shadow:none;border:0}.summary{position:static}.quote{border:0;background:#fff;padding:0}}
+
+.item{grid-template-columns:88px minmax(0,1fr) auto}.item .quantity-field input{width:80px;height:auto;padding:8px;font-size:16px}.quantity-field label{display:block;font-size:12px;color:#405066;font-weight:700;margin:3px 0}.item .money,.item .price{white-space:normal}.service-scope{display:flex;align-items:center;gap:8px;font-size:13px;margin:14px 0}.service-scope input{width:20px;height:20px}.warning,.alert{white-space:pre-line}.muted{line-height:1.5}#reference{margin-top:16px;padding:12px;background:#eef4fb;border-radius:10px;font-size:13px;line-height:1.5}#inputError{color:#8c1d18;background:#fff0ee}[hidden]{display:none!important}@media(max-width:520px){.item{grid-template-columns:88px minmax(0,1fr)}.item .price,.item .money{grid-column:2;text-align:left}}
 </style>
-</head>
-<body>
+<link rel="icon" href="/icon.svg" type="image/svg+xml"></head>
+<body data-pricing="booklet">
 <header><div class="brand"><div class="logo">B</div><div><h1>C.P. Bourg Pricing Configurator</h1><p>Fast retail configuration • 2026 Partner Price List</p></div></div></header>
 <nav style="max-width:1120px;margin:14px auto 0;padding:0 14px"><a href="/pricing/perfect-binding.html" style="display:inline-block;background:#f28c28;color:#171717;padding:12px 18px;border-radius:12px;font-weight:800;text-decoration:none">Perfect Binder + CMT Pricing →</a></nav>
 <main>
 <section class="card config"><div class="pad">
-  <div class="title"><div><div class="eyebrow">Configure</div><h2>Build the finishing system</h2></div><button class="btn ghost" id="resetBtn">Reset</button></div>
+  <div class="title"><div><div class="eyebrow">Configure</div><h2>Build the finishing system</h2></div><button class="btn ghost" id="resetBtn">Clear all</button></div>
   <div class="field"><label>Customer / opportunity</label><input id="customer" placeholder="Example: Canon USA — Acme Print"></div>
   <div class="grid2">
     <div class="field"><label>Operating mode</label><select id="mode"><option value="inline">Inline with printer</option><option value="offline">Offline</option></select></div>
@@ -36,14 +38,14 @@ footer{max-width:1120px;margin:auto;padding:0 14px 28px;color:#7a8796;font-size:
   <div class="flow"><b>System flow</b><div class="flowline" id="flowline"></div></div>
   <div class="field"><label>Configuration preset</label>
     <select id="preset">
-      <option value="custom">Custom</option>
+      <option value="custom">Custom</option><option value="visualEdge">Visual Edge reference — 2 BPM + 2 perforation tools</option>
       <option value="inlineFull">Full inline BBM — BPM + BSE + Trimmer</option>
       <option value="offlineBSF">Offline BBM — BSF + BPM + BSE + Trimmer</option>
       <option value="bbmFinish">BBM + BSE + Trimmer</option>
       <option value="bbmBasic">BBM base system</option>
     </select>
   </div>
-  <div class="items" id="items"></div>
+  <p class="sub">Buy qty accepts 0, 1, 2 or more. Set it to 0 and enter Owned qty for customer equipment. All items remain available; owned hardware and tariffs are $0.</p><div class="items" id="items"></div>
 </div></section>
 
 <aside class="card summary"><div class="pad">
@@ -58,79 +60,13 @@ footer{max-width:1120px;margin:auto;padding:0 14px 28px;color:#7a8796;font-size:
     <div class="row"><span>Installation & training</span><strong id="install">$0.00</strong></div>
     <div class="row total"><span>Total</span><strong id="total2">$0.00</strong></div>
   </div>
-  <div class="note"><b>Configuration logic:</b> BSF can be selected in either inline or offline mode. Inline flow is printer/output stacker → optional BSF → optional BPM → booklet maker. Offline flow starts with BSF when selected. Tariff still applies only to physical hardware; installation and Unlimited license are excluded.</div><div class="warning" id="priceWarning" hidden></div>
-  <div class="actions"><button class="btn primary" id="copyBtn">Copy summary</button><button class="btn secondary" onclick="window.print()">Print / PDF</button></div>
-  <div class="quote" id="quoteText"></div>
+  <div class="note">BSF is available inline or offline. Keep an owned BBM / BM-e in the solution at Buy qty 0 for accessory-only upgrades. Installation uses one standalone main component plus quantity-aware system charges. Owned equipment is included in service only when selected below.</div><div class="warning" id="priceWarning" hidden></div>
+  <div class="field"><label for="installation">Installation / training override (USD, leave blank for master rates)</label><input id="installation" type="number" min="0" step=".01" placeholder="Automatic from master sheet"></div><label class="service-scope"><input id="includeExisting" type="checkbox"> Include owned equipment in installation scope</label><div class="muted sub" id="autoInstall"></div><div class="warning alert" id="inputError" role="alert" hidden></div><div class="actions"><button class="btn primary" id="copyBtn">Copy summary</button><button class="btn secondary" onclick="window.print()">Print / PDF</button></div>
+  <div class="quote" id="quoteText"></div><div id="reference"></div>
 </div></aside>
 </main>
 <footer>Retail pricing and listed system installation charges from C.P. Bourg Official Partner Price List, April 1, 2026. USD. Confirm stock, additional services, and final quote terms before a binding customer offer.</footer>
 
-<script>
-const MAKERS={
-bbm2:{name:"BBM 40/60+ — 2 Hohner Heads",part:"CPB1030575",price:77131.43,install:3650,current:true},
-bbm4:{name:"BBM 40/60+ — 4 Hohner Heads",part:"CPB1030576",price:97896.30,install:3650,current:true},
-bme2:{name:"BM-e — 2 Hohner Heads",part:"9584892-AF",price:70362.96,install:3650,current:true,note:"BM-e is a legacy model; confirm equipment availability."},
-bme4:{name:"BM-e — 4 Hohner Heads",part:"9584894-AF",price:79540.74,install:3650,current:true,note:"BM-e is a legacy model; confirm equipment availability."}
-};
-const DATA=[
-{id:"bsf",name:'Bourg Sheet Feeder BSF (26")',part:"9583634-AF",price:48658.91,kind:"hardware",install:650,desc:"Available for inline or offline feeding"},
-{id:"ifb",name:"BSF Interface Feeder / Manual Feed & Reject Tray",part:"9592434-AF",price:4693.62,kind:"hardware",install:0,desc:"Quoted with BSF; include when required"},
-{id:"bpm",name:"Bourg Preparation Module BPM",part:"CPB0001107",price:37103.74,kind:"hardware",install:1650,desc:"Optional preparation module"},
-{id:"bleed",name:"BPM Bleed / Trim",part:"CPB0001110",price:11873.20,kind:"hardware",install:650,desc:"BPM option"},
-{id:"slot",name:"BPM 1 Extra Slot",part:"CPB0001113",price:8843.06,kind:"hardware",install:0,desc:"Extra BPM slot extension"},
-{id:"crease",name:"BPM Crease",part:"CPB0001108",price:14841.50,kind:"hardware",install:650,desc:"BPM option"},
-{id:"dock",name:"Docking Plate for BM-e / BBM",part:"9592457",price:673.43,kind:"hardware",install:0,desc:"Inline docking plate"},
-{id:"unlimited",name:"BBM 40 to 60+ Upgrade — Unlimited",part:"CPB0001373",price:14285.71,kind:"license",install:0,desc:"Select only when production requires over 40 sheets (40–60+); no tariff",bbmOnly:true},
-{id:"bse",name:"Square Edge (BSE) 40/60+",part:"CPB1027626",price:26849.11,kind:"hardware",install:650,desc:"BBM square-back finishing",bbmOnly:true},
-{id:"trim",name:"BBM Trimming Unit",part:"CPB1027815",price:32189.47,kind:"hardware",install:650,desc:"BBM face trim",bbmOnly:true},
-{id:"box",name:"Bourg Box Communication Interface",part:"9433340-AF",price:5936.60,kind:"hardware",install:0,desc:"JDF Web-to-Finish interface"}
-];
-const PRESETS={bbmBasic:[],bbmFinish:["bse","trim"],inlineFull:["bpm","bleed","slot","crease","dock","bse","trim","box"],offlineBSF:["bsf","ifb","bpm","bleed","slot","crease","bse","trim"]};
-const $=id=>document.getElementById(id), money=n=>n.toLocaleString("en-US",{style:"currency",currency:"USD"});
-function renderItems(){
- $("items").innerHTML=DATA.map(x=>`<label class="item" data-row="${x.id}"><input type="checkbox" data-id="${x.id}"><span><strong>${x.name}</strong><small>${x.part} • ${x.desc}${x.install?" • +"+money(x.install)+" install":""}</small></span><span class="price">${money(x.price)}</span></label>`).join("");
- document.querySelectorAll('[data-id]').forEach(el=>el.addEventListener("change",()=>{syncDependencies(el.dataset.id);calc()}));
-}
-function selectedIds(){return [...document.querySelectorAll('[data-id]')].filter(x=>x.checked).map(x=>x.dataset.id)}
-function setChecked(id,val){const e=document.querySelector('[data-id="'+id+'"]');if(e)e.checked=val}
-function syncDependencies(changed){
- const ids=selectedIds();
- if(["bleed","slot","crease"].includes(changed)&&ids.includes(changed)) setChecked("bpm",true);
- if(changed==="bpm"&&!document.querySelector('[data-id="bpm"]').checked)["bleed","slot","crease"].forEach(x=>setChecked(x,false));
- if(changed==="bsf"&&!document.querySelector('[data-id="bsf"]').checked)setChecked("ifb",false);
- if(changed==="ifb"&&document.querySelector('[data-id="ifb"]').checked)setChecked("bsf",true);
-}
-function setPreset(v){
- const ids=PRESETS[v]||[];
- document.querySelectorAll('[data-id]').forEach(x=>x.checked=ids.includes(x.dataset.id));
- if(v==="offlineBSF") $("mode").value="offline";
- if(v==="inlineFull") $("mode").value="inline";
- calc();
-}
-function updateRows(){
- const isBbm=$("maker").value.startsWith("bbm");
- ["unlimited","bse","trim"].forEach(id=>{const row=document.querySelector('[data-row="'+id+'"]');row.style.display=isBbm?"grid":"none";if(!isBbm)setChecked(id,false)});
-}
-function calc(){
- updateRows();
- const maker=MAKERS[$("maker").value], ids=selectedIds(), chosen=DATA.filter(x=>ids.includes(x.id));
- const hardware=maker.price+chosen.filter(x=>x.kind==="hardware").reduce((a,b)=>a+b.price,0);
- const licenses=chosen.filter(x=>x.kind==="license").reduce((a,b)=>a+b.price,0);
- const tariff=hardware*.10, install=maker.install+chosen.reduce((a,b)=>a+b.install,0), total=hardware+licenses+tariff+install;
- $("hardware").textContent=money(hardware);$("licenses").textContent=money(licenses);$("tariff").textContent=money(tariff);$("install").textContent=money(install);$("grandTotal").textContent=money(total);$("total2").textContent=money(total);
- const cust=$("customer").value.trim();$("customerLabel").textContent=cust||"Current configuration";
- const path=[]; if($("mode").value==="inline")path.push("Printer / Output Stacker"); if(ids.includes("bsf"))path.push("BSF"); if(ids.includes("bpm"))path.push("BPM"); path.push($("maker").value.startsWith("bbm")?"BBM":"BM-e"); if(ids.includes("bse"))path.push("BSE"); if(ids.includes("trim"))path.push("Trimmer"); $("flowline").textContent=path.join("  →  ");
- $("priceWarning").hidden=!maker.note;$("priceWarning").textContent=maker.note||"";
- const lines=[`• ${maker.name} — ${money(maker.price)}`,...chosen.map(x=>`• ${x.name} — ${money(x.price)}`)];
- $("quoteText").textContent=`${cust?cust+"\n":""}C.P. Bourg Finishing Configuration\nMode: ${$("mode").value==="inline"?"Inline":"Offline"}\nFlow: ${path.join(" → ")}\n\n${lines.join("\n")}\n\nHardware: ${money(hardware)}\nLicense / non-tariff: ${money(licenses)}\nTariff (10% physical hardware): ${money(tariff)}\nInstallation & training: ${money(install)}\nTOTAL: ${money(total)}${maker.current?"":"\n\nNOTE: "+maker.note}`;
-}
-$("preset").addEventListener("change",e=>setPreset(e.target.value));
-$("customer").addEventListener("input",calc);
-$("mode").addEventListener("change",calc);
-$("maker").addEventListener("change",calc);
-$("resetBtn").addEventListener("click",()=>{$("preset").value="custom";$("customer").value="";$("mode").value="inline";$("maker").value="bbm2";document.querySelectorAll('[data-id]').forEach(x=>x.checked=false);calc()});
-$("copyBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("quoteText").textContent);$("copyBtn").textContent="Copied!";setTimeout(()=>$("copyBtn").textContent="Copy summary",1200)}catch(e){alert("Copy failed. Select the summary text manually.")}});
-renderItems();setPreset("inlineFull");
-</script>
+<script src="catalog.js"></script><script src="pricing-engine.js"></script><script src="configurator.js"></script>
 </body>
 </html>
