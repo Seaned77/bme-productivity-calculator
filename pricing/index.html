@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1f3a">
+<title>C.P. Bourg Pricing Configurator</title>
+<style>
+:root{--navy:#0b1f3a;--orange:#f28c28;--bg:#f4f7fb;--card:#fff;--ink:#142033;--muted:#667085;--line:#d9e2ec;--green:#087443}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:linear-gradient(135deg,#08172d,#12365d);color:#fff;padding:24px 18px}
+.brand{max-width:1120px;margin:auto;display:flex;gap:14px;align-items:center}.logo{width:44px;height:44px;border-radius:10px;background:var(--orange);display:grid;place-items:center;font-weight:900;color:#111}.brand h1{font-size:22px;margin:0}.brand p{margin:3px 0 0;color:#cfe0f4;font-size:13px}
+main{max-width:1120px;margin:22px auto;padding:0 14px 44px;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.9fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 26px rgba(15,35,60,.06);overflow:hidden}.pad{padding:18px}.title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.title h2{margin:0;font-size:19px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.11em;color:var(--orange);text-transform:uppercase;margin-bottom:5px}
+.field{display:grid;gap:6px;margin-top:14px}.field label{font-size:12px;font-weight:700;color:#405066}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}
+.items{margin-top:16px;border-top:1px solid var(--line)}.item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:13px 2px;border-bottom:1px solid #edf1f5}.item input{width:21px;height:21px;accent-color:var(--orange)}.item strong{display:block;font-size:14px}.item small{display:block;color:var(--muted);margin-top:2px}.price{font-variant-numeric:tabular-nums;font-weight:800;font-size:14px;text-align:right}.tag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;font-size:10px;background:#eef4fb;color:#38516e}
+.preset{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:11px;padding:10px 13px;font-weight:800;cursor:pointer}.btn.primary{background:var(--orange);color:#161616}.btn.secondary{background:#eaf0f7;color:var(--navy)}.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--navy)}
+.summary{position:sticky;top:12px}.big{font-size:34px;font-weight:900;letter-spacing:-.03em;margin-top:5px}.sub{color:var(--muted);font-size:12px}.rows{margin-top:18px}.row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #edf1f5;font-size:14px}.row strong{font-variant-numeric:tabular-nums}.row.total{font-size:18px;border:0;padding-top:15px}.good{color:var(--green);font-weight:800}.note{margin-top:14px;padding:11px 12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;font-size:12px;line-height:1.45;color:#7c4310}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.quote{margin-top:16px;background:#f8fafc;border:1px dashed #bdc9d6;border-radius:12px;padding:12px;font-size:12px;line-height:1.5;white-space:pre-wrap}
+footer{max-width:1120px;margin:auto;padding:0 14px 28px;color:#7a8796;font-size:11px}
+@media(max-width:780px){main{grid-template-columns:1fr}.summary{position:static}.brand{align-items:flex-start}.big{font-size:30px}.actions{grid-template-columns:1fr}}
+@media print{header,.config,.actions,.note,footer{display:none!important}main{display:block;margin:0;padding:0}.card{box-shadow:none;border:0}.summary{position:static}.quote{border:0;background:#fff;padding:0}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">B</div><div><h1>C.P. Bourg Pricing Configurator</h1><p>Fast retail configuration • Version 1</p></div></div></header>
+<main>
+<section class="card config"><div class="pad">
+  <div class="title"><div><div class="eyebrow">Configure</div><h2>Build a BBM system</h2></div><button class="btn ghost" id="resetBtn">Reset</button></div>
+  <div class="field"><label>Customer / opportunity</label><input id="customer" placeholder="Example: Canon USA — Acme Print"></div>
+  <div class="field"><label>Configuration preset</label>
+    <select id="preset">
+      <option value="custom">Custom</option>
+      <option value="inlineFull">Full inline BBM — BPM + BSE + Trimmer</option>
+      <option value="bbmFinish">BBM + BSE + Trimmer</option>
+      <option value="bbmBasic">BBM base system</option>
+    </select>
+  </div>
+  <div class="items" id="items"></div>
+</div></section>
+
+<aside class="card summary"><div class="pad">
+  <div class="eyebrow">Live price</div>
+  <div class="sub" id="customerLabel">Current configuration</div>
+  <div class="big" id="grandTotal">$0.00</div>
+  <div class="sub">Estimated retail total, before tax/shipping/rigging.</div>
+  <div class="rows">
+    <div class="row"><span>Physical hardware</span><strong id="hardware">$0.00</strong></div>
+    <div class="row"><span>License / non-tariff items</span><strong id="licenses">$0.00</strong></div>
+    <div class="row"><span>Tariff <span class="tag">10% hardware only</span></span><strong id="tariff">$0.00</strong></div>
+    <div class="row"><span>Installation & training</span><strong id="install">$0.00</strong></div>
+    <div class="row total"><span>Total</span><strong id="total2">$0.00</strong></div>
+  </div>
+  <div class="note"><b>Pricing logic:</b> tariff applies only to physical hardware. Installation and the Unlimited 40–60 license are excluded from tariff. BBM base installation is $5,300; selected minor option installs are $650 each.</div>
+  <div class="actions"><button class="btn primary" id="copyBtn">Copy summary</button><button class="btn secondary" onclick="window.print()">Print / PDF</button></div>
+  <div class="quote" id="quoteText"></div>
+</div></aside>
+</main>
+<footer>Seed pricing verified from C.P. Bourg quotation dated September 11, 2026. USD. Prices should be validated against the active partner price list before a binding customer quote.</footer>
+
+<script>
+const DATA=[
+{id:"bpm",name:"Bourg Preparation Module BPM",part:"CPB0001107",price:37103.74,kind:"hardware",install:0,desc:"BPM main module"},
+{id:"bleed",name:"BPM Bleed / Trim",part:"CPB0001110",price:11873.20,kind:"hardware",install:650,desc:"Bleed / trim option"},
+{id:"slot",name:"BPM 1 Extra Slot",part:"CPB0001113",price:8843.06,kind:"hardware",install:0,desc:"Extra BPM slot extension"},
+{id:"crease",name:"BPM Crease",part:"CPB0001108",price:14841.50,kind:"hardware",install:650,desc:"Creasing option"},
+{id:"bbm",name:"BBM 40/60+ — 2 Hohner Heads",part:"CPB1030575",price:77131.43,kind:"hardware",install:5300,required:true,desc:"Bourg Booklet Maker base unit"},
+{id:"dock",name:"Docking Plate for In-line BM-e 2 Dir",part:"9592457",price:673.43,kind:"hardware",install:0,desc:"Inline docking plate"},
+{id:"unlimited",name:"BBM 40 to 60+ Upgrade — Unlimited",part:"CPB0001373",price:14285.71,kind:"license",install:0,desc:"License; no tariff"},
+{id:"bse",name:"Square Edge (BSE) 40/60+",part:"CPB1027626",price:26849.11,kind:"hardware",install:650,desc:"Square-back finishing"},
+{id:"trim",name:"BBM Trimming Unit",part:"CPB1027815",price:32189.47,kind:"hardware",install:650,desc:"Face trim"},
+{id:"box",name:"Bourg Box Communication Interface",part:"9433340-AF",price:5936.60,kind:"hardware",install:0,desc:"JDF Web-to-Finish interface"}
+];
+const PRESETS={
+bbmBasic:["bbm"],
+bbmFinish:["bbm","bse","trim"],
+inlineFull:["bpm","bleed","slot","crease","bbm","dock","unlimited","bse","trim","box"]
+};
+const $=id=>document.getElementById(id), money=n=>n.toLocaleString("en-US",{style:"currency",currency:"USD"});
+function renderItems(){
+ $("items").innerHTML=DATA.map(x=>`<label class="item"><input type="checkbox" data-id="${x.id}" ${x.required?"checked disabled":""}><span><strong>${x.name}</strong><small>${x.part} • ${x.desc}${x.install?" • +"+money(x.install)+" install":""}</small></span><span class="price">${money(x.price)}</span></label>`).join("");
+ document.querySelectorAll('[data-id]').forEach(el=>el.addEventListener("change",calc));
+}
+function selectedIds(){return [...document.querySelectorAll('[data-id]')].filter(x=>x.checked).map(x=>x.dataset.id)}
+function setPreset(v){
+ const ids=PRESETS[v]||["bbm"];
+ document.querySelectorAll('[data-id]').forEach(x=>x.checked=ids.includes(x.dataset.id)||x.dataset.id==="bbm");
+ calc();
+}
+function calc(){
+ const ids=selectedIds(), chosen=DATA.filter(x=>ids.includes(x.id));
+ const hardware=chosen.filter(x=>x.kind==="hardware").reduce((a,b)=>a+b.price,0);
+ const licenses=chosen.filter(x=>x.kind==="license").reduce((a,b)=>a+b.price,0);
+ const tariff=hardware*.10;
+ const install=chosen.reduce((a,b)=>a+b.install,0);
+ const total=hardware+licenses+tariff+install;
+ $("hardware").textContent=money(hardware);$("licenses").textContent=money(licenses);$("tariff").textContent=money(tariff);$("install").textContent=money(install);
+ $("grandTotal").textContent=money(total);$("total2").textContent=money(total);
+ const cust=$("customer").value.trim();$("customerLabel").textContent=cust||"Current configuration";
+ const lines=chosen.map(x=>`• ${x.name} — ${money(x.price)}`);
+ $("quoteText").textContent=`${cust?cust+"\n":""}C.P. Bourg BBM Configuration\n\n${lines.join("\n")}\n\nHardware: ${money(hardware)}\nLicense / non-tariff: ${money(licenses)}\nTariff (10% hardware): ${money(tariff)}\nInstallation & training: ${money(install)}\nTOTAL: ${money(total)}`;
+}
+$("preset").addEventListener("change",e=>setPreset(e.target.value));
+$("customer").addEventListener("input",calc);
+$("resetBtn").addEventListener("click",()=>{$("preset").value="custom";$("customer").value="";setPreset("bbmBasic")});
+$("copyBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("quoteText").textContent);$("copyBtn").textContent="Copied!";setTimeout(()=>$("copyBtn").textContent="Copy summary",1200)}catch(e){alert("Copy failed. Select the summary text manually.")}});
+renderItems();setPreset("inlineFull");
+</script>
+</body>
+</html>
