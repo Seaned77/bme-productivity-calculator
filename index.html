@@ -55,16 +55,16 @@
   <section id="view-offline" class="view hidden"><div class="card"><div class="section-title">Offline</div><h2>Production & shift planner</h2><div id="offlineInputs"></div><div id="offlineRate" class="rate-badge"></div><div id="offlineResults"></div><div id="offlineValidation"></div><button class="reset" data-reset="offline">Reset Offline values</button></div></section>
 
   <div class="card"><h2 style="margin-bottom:4px">Put it on your phone</h2><p class="note">On iPhone use Safari → Share → Add to Home Screen. On Android use Chrome → Install app / Add to Home screen.</p><button id="installBtn" class="install" hidden>Install Bourg Calculator</button></div>
-  <div class="footer-note">V5 • iX3200 + varioPRINT 6330 TITAN printer selection • U.S./Metric + paper-weight conversion • BBM dimensional/thickness limits use current CP Bourg published specifications • BMe legacy thickness/media assumptions are flagged in-app • calculations run on-device</div>
+  <div class="footer-note">V6 • 13 × 19 sheet option • iX3200 + varioPRINT 6330 TITAN printer selection • U.S./Metric + paper-weight conversion • BBM dimensional/thickness limits use current CP Bourg published specifications • BMe legacy thickness/media assumptions are flagged in-app • calculations run on-device</div>
 </main>
 <script src="./equipment-visuals.js?v=4.6"></script>
 <script>
 const LIMITS={minCross:4.69,maxCross:14.57,minRun:7.09,maxRun:23.62};
 const MODELS={BBM:{name:'BBM',sheetMax:60,flatMax:6,foldedMax:12,gsmMin:60,gsmMax:350,assumed:false},BME:{name:'BMe (Legacy)',sheetMax:30,flatMax:6,foldedMax:12,gsmMin:60,gsmMax:350,assumed:true}};
-const SIZES={letter:{name:'Letter',a:8.5,b:11},legal:{name:'Legal',a:8.5,b:14},ledger:{name:'Ledger',a:11,b:17},ledgerplus:{name:'Ledger +',a:12,b:18},ninetwelve:{name:'9 × 12',a:9,b:12},a4:{name:'A4',a:210/25.4,b:297/25.4},a3:{name:'A3',a:297/25.4,b:420/25.4},sra3:{name:'SRA3',a:320/25.4,b:450/25.4},custom:{name:'Custom',custom:true}};
+const SIZES={letter:{name:'Letter',a:8.5,b:11},legal:{name:'Legal',a:8.5,b:14},ledger:{name:'Ledger',a:11,b:17},ledgerplus:{name:'Ledger +',a:12,b:18},thirteenxnineteen:{name:'13 × 19',a:13,b:19},ninetwelve:{name:'9 × 12',a:9,b:12},a4:{name:'A4',a:210/25.4,b:297/25.4},a3:{name:'A3',a:297/25.4,b:420/25.4},sra3:{name:'SRA3',a:320/25.4,b:450/25.4},custom:{name:'Custom',custom:true}};
 const PRINTERS={
  IX3200:{name:'Canon varioPRINT iX3200',shortName:'iX3200',points:[[8.5,156],[9,147],[11,113],[12,107.25],[17,79],[18,75]],exact:{'letter-LEF':156,'letter-SEF':113,'legal-LEF':156,'ledger-SEF':79,'ledgerplus-SEF':75,'ninetwelve-SEF':107.25,'ninetwelve-LEF':147},note:'iX3200 rates use the established calculator workbook values.'},
- VP6330:{name:'Canon varioPRINT 6330 TITAN',shortName:'6330 TITAN',points:[[8,164],[8.5,160],[9,152.5],[14,100],[17,83.5],[17.3,82],[18,79],[19,75],[19.7,72.5]],exact:{'letter-LEF':160,'legal-SEF':100,'ledger-SEF':83.5,'ledgerplus-SEF':79,'ninetwelve-LEF':152.5},note:'6330 TITAN rates are based on Canon published duplex impressions/minute by paper size, converted to physical duplex sheets/minute. Rotated/custom sizes are estimated from running length.'}
+ VP6330:{name:'Canon varioPRINT 6330 TITAN',shortName:'6330 TITAN',points:[[8,164],[8.5,160],[9,152.5],[14,100],[17,83.5],[17.3,82],[18,79],[19,75],[19.7,72.5]],exact:{'letter-LEF':160,'legal-SEF':100,'ledger-SEF':83.5,'ledgerplus-SEF':79,'thirteenxnineteen-SEF':75,'ninetwelve-LEF':152.5},note:'6330 TITAN rates are based on Canon published duplex impressions/minute by paper size, converted to physical duplex sheets/minute. Rotated/custom sizes are estimated from running length.'}
 };
 const SPEED_POINTS={offline:[[8.5,266.67],[9,251.85],[11,200],[12,183.33],[17,130],[18,120]]};
 const EXACT_RATES={offline:{'letter-LEF':266.67,'letter-SEF':200,'legal-LEF':266.67,'ledger-SEF':130,'ledgerplus-SEF':120,'ninetwelve-SEF':183.33,'ninetwelve-LEF':251.85}};
